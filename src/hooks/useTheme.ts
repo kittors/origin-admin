@@ -18,20 +18,14 @@ export const useTheme = () => {
   // 切换暗黑模式 ==> 同时修改主题颜色、侧边栏、头部颜色
   const switchDark = () => {
     const html = document.documentElement as HTMLElement;
-    isDark.value = !isDark.value;  // 先切换状态
-
     if (isDark.value) {
       html.classList.add('dark');
     } else {
       html.classList.remove('dark');
     }
-
-    // 延迟执行其他主题更改，等待过渡效果完成
-    setTimeout(() => {
-      changePrimary(primary.value);
-      setAsideTheme();
-      setHeaderTheme();
-    }, 400);
+    changePrimary(primary.value);
+    setAsideTheme();
+    setHeaderTheme();
   };
 
   // 修改主题颜色

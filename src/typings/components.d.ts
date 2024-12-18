@@ -12,6 +12,7 @@ declare module 'vue' {
     500: typeof import('./../components/ErrorMessage/500.vue')['default']
     Demo: typeof import('./../components/Demo/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']

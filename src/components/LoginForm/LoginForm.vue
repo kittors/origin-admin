@@ -4,7 +4,7 @@
       <el-input v-model="loginForm.username" placeholder="用户名：admin / user">
         <template #prefix>
           <el-icon class="el-input__icon">
-            <user />
+            <User />
           </el-icon>
         </template>
       </el-input>
@@ -19,7 +19,7 @@
       >
         <template #prefix>
           <el-icon class="el-input__icon">
-            <lock />
+            <Lock />
           </el-icon>
         </template>
       </el-input>
@@ -46,6 +46,7 @@
 import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { HOME_URL } from '@/config'
+import { User, Lock } from '@element-plus/icons-vue'
 // import { getTimeState } from "@/utils";
 import { Login } from '@/api/interface'
 import { ElNotification } from 'element-plus'

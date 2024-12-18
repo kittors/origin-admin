@@ -1,6 +1,6 @@
 <template>
   <el-switch
-    v-model="globalStore.isDark"
+    v-model="isDark"
     inline-prompt
     :active-icon="Sunny"
     :inactive-icon="Moon"
@@ -23,6 +23,7 @@ defineOptions({
 const switchRef = ref<ComponentPublicInstance>()
 const { switchDark } = useTheme()
 const globalStore = useAppStore()
+const { isDark } = storeToRefs(globalStore)
 
 const toggleTheme = (event: MouseEvent) => {
   const switchEl = switchRef.value?.$el
@@ -36,8 +37,10 @@ const toggleTheme = (event: MouseEvent) => {
   if (!document.startViewTransition) {
     return
   }
+  isDark.value = !isDark.value // 先切换状态
   switchDark()
   const transition = document.startViewTransition(async () => {
+    isDark.value = !isDark.value // 先切换状态
     switchDark()
   })
 
@@ -46,12 +49,12 @@ const toggleTheme = (event: MouseEvent) => {
 
     document.documentElement.animate(
       {
-        clipPath: !globalStore.isDark ? clipPath : [...clipPath].reverse(),
+        clipPath: !isDark.value ? clipPath : [...clipPath].reverse(),
       },
       {
-        duration: 600,
-        easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
-        pseudoElement: !globalStore.isDark
+        duration: 500,
+        easing: 'cubic-bezier(.1, 0,  0.1, 0.9)',
+        pseudoElement: !isDark.value
           ? '::view-transition-new(root)'
           : '::view-transition-old(root)',
       },
