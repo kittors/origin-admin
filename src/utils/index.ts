@@ -5,12 +5,14 @@ const mode = import.meta.env.VITE_ROUTER_MODE;
  * @param {Array} menuList 菜单列表
  * @returns {Array}
  * */
-export function getShowMenuList(menuList: Menu.MenuOptions[]): Array<any> {
-    let newMenuList: Menu.MenuOptions[] = JSON.parse(JSON.stringify(menuList));
-    return newMenuList.filter(item => {
-        item.children?.length && (item.children = getShowMenuList(item.children));
-        return !item.meta?.isHide;
-    });
+export function getShowMenuList(menuList: Menu.MenuOptions[]): Menu.MenuOptions[] {
+	const newMenuList: Menu.MenuOptions[] = JSON.parse(JSON.stringify(menuList));
+	return newMenuList.filter((item) => {
+		if (item.children?.length) {
+			item.children = getShowMenuList(item.children);
+		}
+		return !item.meta?.isHide;
+	});
 }
 
 /**
@@ -20,14 +22,17 @@ export function getShowMenuList(menuList: Menu.MenuOptions[]): Array<any> {
  * @param {Object} result 处理后的结果
  * @returns {Object}
  */
-export const getAllBreadcrumbList = (menuList: Menu.MenuOptions[], parent: Array<any> = [], result: { [key: string]: any } = {}): object => {
-    for (const item of menuList) {
-        result[item.path] = [...parent, item];
-        if (item.children) getAllBreadcrumbList(item.children, result[item.path], result);
-    }
-    return result;
+export const getAllBreadcrumbList = (
+	menuList: Menu.MenuOptions[],
+	parent: Menu.MenuOptions[] = [],
+	result: Record<string, Menu.MenuOptions[]> = {},
+): Record<string, Menu.MenuOptions[]> => {
+	for (const item of menuList) {
+		result[item.path] = [...parent, item];
+		if (item.children) getAllBreadcrumbList(item.children, result[item.path], result);
+	}
+	return result;
 };
-
 
 /**
  * @description 使用递归扁平化菜单，方便添加动态路由
@@ -35,19 +40,21 @@ export const getAllBreadcrumbList = (menuList: Menu.MenuOptions[], parent: Array
  * @returns {Array}
  */
 export function getFlatMenuList(menuList: Menu.MenuOptions[]): Menu.MenuOptions[] {
-    let newMenuList: Menu.MenuOptions[] = JSON.parse(JSON.stringify(menuList));
-    return newMenuList.flatMap(item => [item, ...(item.children ? getFlatMenuList(item.children) : [])]);
+	const newMenuList: Menu.MenuOptions[] = JSON.parse(JSON.stringify(menuList));
+	return newMenuList.flatMap((item) => [
+		item,
+		...(item.children ? getFlatMenuList(item.children) : []),
+	]);
 }
-
 
 /**
  * @description 获取不同路由模式所对应的 url + params
  * @returns {String}
  */
 export function getUrlWithParams() {
-    const url = {
-        hash: location.hash.substring(1),
-        history: location.pathname + location.search
-    };
-    return url[mode];
+	const url = {
+		hash: location.hash.substring(1),
+		history: location.pathname + location.search,
+	};
+	return url[mode];
 }

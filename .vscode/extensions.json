@@ -1,10 +1,9 @@
 {
-  "recommendations": [
-    "Vue.volar",
-    "vitest.explorer",
-    "ms-playwright.playwright",
-    "dbaeumer.vscode-eslint",
-    "EditorConfig.EditorConfig",
-    "esbenp.prettier-vscode"
-  ]
+	"recommendations": [
+		"biomejs.biome",
+		"Vue.volar",
+		"Vue.vscode-typescript-vue-plugin",
+		"Vue.volarvue",
+		"hollowtree.vue-snippets"
+	]
 }
