@@ -63,13 +63,38 @@ interface PathItem {
 const baseOutputPath = resolve(process.cwd(), 'src/api/modules');
 const typeOutputPath = resolve(process.cwd(), 'src/api/modules/types');
 
+// 清理 HTML 标签的辅助函数
+function cleanHtmlTags(text: string): string {
+	return text.replace(/<\/?[^>]+(>|$)/g, '');
+}
+
 function generateTypeDefinition(schema: Schema, name: string): string {
-	let content = `/**\n * ${schema.description || ''}\n */\n`;
+	// 处理 schema 的 description，清理 HTML 标签并在每个 \n 后面添加 //
+	const schemaDescription = schema.description
+		? cleanHtmlTags(schema.description).replace(/\n/g, '\n// ')
+		: '';
+
+	// 调试日志
+	if(schema.description && schema.description.includes('\n')){
+		logger.info('Found multiline description:', schema.description);
+	}
+
+	let content = `/**\n * ${schemaDescription}\n */\n`;
 	content += `export interface ${name} {\n`;
 
 	for (const [propName, prop] of Object.entries<SchemaProperty>(schema.properties)) {
 		const required = schema.required?.includes(propName);
-		const description = prop.description ? ` // ${prop.description}` : '';
+
+		// 处理属性的 description，清理 HTML 标签并在每个 \n 后面添加 //
+		const description = prop.description
+			? ` // ${cleanHtmlTags(prop.description).replace(/\n/g, '\n// ')}`
+			: '';
+
+		// 调试日志
+		if(prop.description && prop.description.includes('\n')){
+			logger.info(`Found multiline property description in ${propName}:`, prop.description);
+		}
+
 		let type: string;
 
 		switch (prop.type) {
@@ -124,7 +149,7 @@ function generateApiName(path: string, operationId?: string): string {
 	// 移除开头的斜杠并分割路径
 	const pathParts = cleanPath.replace(/^\//, '').split('/');
 
-	// 将每部分首字母大写，但最终结果首字母小写
+	// 将部分首字母大写，最终结果首字母小写
 	const pathName = pathParts
 		.map(part => part.charAt(0).toUpperCase() + part.slice(1))
 		.join('');
@@ -220,6 +245,20 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 	for (const [path, methods] of Object.entries(paths)) {
 		for (const [method, operation] of Object.entries(methods)) {
 			const tag = operation.tags?.[0] || 'common';
+
+			// 特殊处理首页接口
+			if (tag === '首页' || operation.operationId === 'index') {
+				if (!apisByTag.has('index')) {
+					apisByTag.set('index', []);
+				}
+				apisByTag.get('index')?.push({
+					...operation,
+					path: path || '',
+					method: method || ''
+				});
+				continue;
+			}
+
 			const fileName = tagNameMap[tag];
 
 			// 如果在 tagNameMap 中找不到对应的文件名，将接口添加到 otherApis
@@ -242,7 +281,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 		}
 	}
 
-	// 如果有未分类的接口，将它们添加到 other.ts
+	// 如果有未分类的接口，将它们加到 other.ts
 	if (otherApis.length > 0) {
 		let content = `import http from '@/api';\n`;
 		content += `import type { ${collectTypesForTag(otherApis)} } from './types/api-types';\n\n`;
@@ -350,7 +389,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 		fs.writeFileSync(resolve(baseOutputPath, 'other.ts'), content);
 	}
 
-	// 记录生成的模块数量
+	// 记录生成的模��数量
 	let generatedCount = 0;
 
 	// 为每个 tag 生成单独的文件
@@ -465,7 +504,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 
 	// 所有文件生成完成后，只打印一次成功消息
 	if (generatedCount > 0) {
-		logger.success(`成功生成 ${generatedCount} 个模块的接口文件！`);
+		logger.success(`成功生成 ${generatedCount} ���模块的接口文件！`);
 	}
 }
 
@@ -515,6 +554,11 @@ function getResponseType(operation: PathItem): string {
 	const schema = content?.['application/json']?.schema || content?.['*/*']?.schema;
 
 	if (!schema) return 'unknown';
+
+	// 处理基本类型
+	if (schema.type === 'string') return 'string';
+	if (schema.type === 'number' || schema.type === 'integer') return 'number';
+	if (schema.type === 'boolean') return 'boolean';
 
 	if (schema.$ref) {
 		return schema.$ref.split('/').pop() || 'unknown';

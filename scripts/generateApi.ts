@@ -71,8 +71,16 @@ interface OpenAPIDoc {
 const baseOutputPath = resolve(process.cwd(), 'src/api/modules');
 const typeOutputPath = resolve(process.cwd(), 'src/api/modules/types');
 
+function cleanHtmlTags(text: string): string {
+	return text.replace(/<\/?[^>]+(>|$)/g, '');
+}
+
 function generateTypeDefinition(schema: Schema, name: string): string {
-	let content = `/**\n * ${schema.description || ''}\n */\n`;
+	const schemaDescription = schema.description
+		? cleanHtmlTags(schema.description).replace(/\n/g, '\n// ')
+		: '';
+
+	let content = `/**\n * ${schemaDescription}\n */\n`;
 	content += `export interface ${name} {\n`;
 
 	for (const [propName, prop] of Object.entries<SchemaProperty>(schema.properties)) {
@@ -165,7 +173,7 @@ function getParamType(schema: SchemaProperty): string {
 function generateTagNameMap(paths: Record<string, Record<string, PathItem>>): Record<string, string> {
 	const tagPathMap = new Map<string, Set<string>>();
 
-	// 遍历所有路径和方法
+	// 遍历���有路径和方法
 	for (const [path, methods] of Object.entries(paths)) {
 		for (const [_, operation] of Object.entries(methods)) {
 			if (operation.tags?.[0]) {
@@ -223,19 +231,56 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 
 	// 按 tag 分组
 	const apisByTag = new Map<string, PathItem[]>();
+	const otherApis: PathItem[] = []; // 新增：存储未分类的接口
 
+	// 修改分组逻辑
 	for (const [path, methods] of Object.entries(paths)) {
 		for (const [method, operation] of Object.entries(methods)) {
 			const tag = operation.tags?.[0] || 'common';
-			if (!apisByTag.has(tag)) {
-				apisByTag.set(tag, []);
+
+			// 特殊处理首页接口
+			if (tag === '首页' || operation.operationId === 'index') {
+				if (!apisByTag.has('index')) {
+					apisByTag.set('index', []);
+				}
+				apisByTag.get('index')?.push({
+					...operation,
+					path: path || '',
+					method: method || ''
+				});
+				continue;
 			}
-			apisByTag.get(tag)?.push({
-				...operation,
-				path: path || '',  // 提供默认值
-				method: method || ''
-			});
+
+			const fileName = tagNameMap[tag];
+
+			// 如果在 tagNameMap 中找不到对应的文件名，将接口添加到 otherApis
+			if (!fileName && tag !== 'common') {
+				otherApis.push({
+					...operation,
+					path: path || '',
+					method: method || ''
+				});
+			} else {
+				if (!apisByTag.has(tag)) {
+					apisByTag.set(tag, []);
+				}
+				apisByTag.get(tag)?.push({
+					...operation,
+					path: path || '',
+					method: method || ''
+				});
+			}
 		}
+	}
+
+	// 处理未分类的接口
+	if (otherApis.length > 0) {
+		// 生成 other.ts 文件
+		let content = `import http from '@/api';\n`;
+		content += `import type { ${collectTypesForTag(otherApis)} } from './types/api-types';\n\n`;
+		content += `/**\n * @name 其他未分类接口\n */\n`;
+		// ... 生成接口代码的逻辑 ...
+		fs.writeFileSync(resolve(baseOutputPath, 'other.ts'), content);
 	}
 
 	// 记录生成的模块数量
@@ -403,6 +448,11 @@ function getResponseType(operation: PathItem): string {
 	const schema = content?.['application/json']?.schema || content?.['*/*']?.schema;
 
 	if (!schema) return 'unknown';
+
+	// 添加基本类型处理
+	if (schema.type === 'string') return 'string';
+	if (schema.type === 'number' || schema.type === 'integer') return 'number';
+	if (schema.type === 'boolean') return 'boolean';
 
 	if (schema.$ref) {
 		return schema.$ref.split('/').pop() || 'unknown';

@@ -757,26 +757,26 @@ export interface SysLogininforBo {
 export interface ExportDemoVo {
 	nickName: string; // 用户昵称
 	userStatus: string; // 用户类型
- </p>
- 使用ExcelEnumFormat注解需要进行下拉选的部分
+//  
+//  使用ExcelEnumFormat注解需要进行下拉选的部分
 	gender: string; // 性别
- <p>
- 使用ExcelDictFormat注解需要进行下拉选的部分
+//  
+//  使用ExcelDictFormat注解需要进行下拉选的部分
 	phoneNumber: string; // 手机号
 	email: string; // Email
 	province: string; // 省
- <p>
- 级联下拉，仅判断是否选了
+//  
+//  级联下拉，仅判断是否选了
 	provinceId: number; // 数据库中的省ID
- </p>
- 处理完毕后再判断是否市正确的值
+//  
+//  处理完毕后再判断是否市正确的值
 	city: string; // 市
- <p>
- 级联下拉
+//  
+//  级联下拉
 	cityId: number; // 数据库中的市ID
 	area: string; // 县
- <p>
- 级联下拉
+//  
+//  级联下拉
 	areaId: number; // 数据库中的县ID
 }
 
@@ -867,9 +867,9 @@ export interface ParticipantVo {
 	candidate?: number[]; // 候选人id（用户id） 当组id不为空时，将组内人员查出放入candidate
 	candidateName?: string[]; // 候选人名称（用户名称） 当组id不为空时，将组内人员查出放入candidateName
 	claim?: boolean; // 是否认领标识
- 当为空时默认当前任务不需要认领
- 当为true时当前任务说明为候选模式并且有人已经认领了任务可以归还，
- 当为false时当前任务说明为候选模式该任务未认领，
+//  当为空时默认当前任务不需要认领
+//  当为true时当前任务说明为候选模式并且有人已经认领了任务可以归还，
+//  当为false时当前任务说明为候选模式该任务未认领，
 }
 
 /**
@@ -1774,7 +1774,7 @@ export interface RListSysMenuVo {
 export interface MetaVo {
 	title?: string; // 设置该路由在侧边栏和面包屑中展示的名字
 	icon?: string; // 设置该路由的图标，对应路径src/assets/icons/svg
-	noCache?: boolean; // 设置为true，则不会被 <keep-alive>缓存
+	noCache?: boolean; // 设置为true，则不会被 缓存
 	link?: string; // 内链地址（http(s)://开头）
 }
 
