@@ -1,6 +1,184 @@
 // 自动生成的类型定义
 
 /**
+ * 响应信息主体
+ */
+export interface RVoid {
+	code?: number;
+	msg?: string;
+	data?: Record<string, unknown>;
+}
+
+/**
+ * 模型请求对象
+ */
+export interface ModelBo {
+	id: string; // 模型id
+	name: string; // 模型名称
+	key: string; // 模型标识key
+	categoryCode: string; // 模型分类
+	xml: string; // 模型XML
+	svg: string; // 模型SVG图片
+	description?: string; // 备注
+}
+
+/**
+ * 请假业务对象 test_leave
+ */
+export interface TestLeaveBo {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	id: number; // 主键
+	leaveType: string; // 请假类型
+	startDate: string; // 开始时间
+	endDate: string; // 结束时间
+	leaveDays: number; // 请假天数
+	startLeaveDays?: number; // 开始时间
+	endLeaveDays?: number; // 结束时间
+	remark?: string; // 请假原因
+	status?: string; // 状态
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RTestLeaveVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 请假视图对象 test_leave
+ */
+export interface TestLeaveVo {
+	id?: number; // 主键
+	leaveType?: string; // 请假类型
+	startDate?: string; // 开始时间
+	endDate?: string; // 结束时间
+	leaveDays?: number; // 请假天数
+	remark?: string; // 备注
+	status?: string; // 状态
+}
+
+/**
+ * 表单管理业务对象 wf_form_manage
+ */
+export interface WfFormManageBo {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	id: number; // 主键
+	formName: string; // 表单名称
+	formType: string; // 表单类型
+	router: string; // 路由地址/表单ID
+	remark?: string; // 备注
+}
+
+/**
+ * 流程分类业务对象 wf_category
+ */
+export interface WfCategoryBo {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	id: number; // 主键
+	categoryName: string; // 分类名称
+	categoryCode: string; // 分类编码
+	parentId: number; // 父级id
+	sortNum?: number; // 排序
+}
+
+/**
+ * 业务表 gen_table
+ */
+export interface GenTable {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	tableId?: number; // 编号
+	dataName: string; // 数据源名称
+	tableName: string; // 表名称
+	tableComment: string; // 表描述
+	subTableName?: string; // 关联父表的表名
+	subTableFkName?: string; // 本表关联父表的外键名
+	className: string; // 实体类名称(首字母大写)
+	tplCategory?: string; // 使用的模板（crud单表操作 tree树表操作 sub主子表操作）
+	packageName: string; // 生成包路径
+	moduleName: string; // 生成模块名
+	businessName: string; // 生成业务名
+	functionName: string; // 生成功能名
+	functionAuthor: string; // 生成作者
+	genType?: string; // 生成代码方式（0zip压缩包 1自定义路径）
+	genPath?: string; // 生成路径（不填默认项目路径）
+	pkColumn?: unknown;
+	columns?: GenTableColumn[]; // 表列信息
+	options?: string; // 其它生成选项
+	remark?: string; // 备注
+	treeCode?: string; // 树编码字段
+	treeParentCode?: string; // 树父编码字段
+	treeName?: string; // 树名称字段
+	menuIds?: number[];
+	parentMenuId?: number; // 上级菜单ID字段
+	parentMenuName?: string; // 上级菜单名称字段
+	tree?: boolean;
+	crud?: boolean;
+}
+
+/**
+ * 代码生成业务字段表 gen_table_column
+ */
+export interface GenTableColumn {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	columnId?: number; // 编号
+	tableId?: number; // 归属表编号
+	columnName?: string; // 列名称
+	columnComment?: string; // 列描述
+	columnType?: string; // 列类型
+	javaType?: string; // JAVA类型
+	javaField: string; // JAVA字段名
+	isPk?: string; // 是否主键（1是）
+	isIncrement?: string; // 是否自增（1是）
+	isRequired?: string; // 是否必填（1是）
+	isInsert?: string; // 是否为插入字段（1是）
+	isEdit?: string; // 是否编辑字段（1是）
+	isList?: string; // 是否列表字段（1是）
+	isQuery?: string; // 是否查询字段（1是）
+	queryType?: string; // 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）
+	htmlType?: string; // 显示类型（input文本框、textarea文本域、select下拉框、checkbox复选框、radio单选框、datetime日期控件、image图片上传控件、upload文件上传控件、editor富文本控件）
+	dictType?: string; // 字典类型
+	sort?: number; // 排序
+	required?: boolean;
+	usableColumn?: boolean;
+	superColumn?: boolean;
+	list?: boolean;
+	increment?: boolean;
+	capJavaField?: string;
+	pk?: boolean;
+	insert?: boolean;
+	edit?: boolean;
+	query?: boolean;
+}
+
+/**
  * 用户信息业务对象 sys_user
  */
 export interface SysUserBo {
@@ -26,15 +204,6 @@ export interface SysUserBo {
 	roleId?: number; // 数据权限 当前角色ID
 	excludeUserIds?: string; // 排除不查询的用户(工作流用)
 	superAdmin?: boolean;
-}
-
-/**
- * 响应信息主体
- */
-export interface RVoid {
-	code?: number;
-	msg?: string;
-	data?: Record<string, unknown>;
 }
 
 /**
@@ -331,6 +500,179 @@ export interface SysOssConfigBo {
 }
 
 /**
+ * 测试树表业务对象 test_tree
+ */
+export interface TestTreeBo {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	id: number; // 主键
+	parentId?: number; // 父ID
+	deptId: number; // 部门id
+	userId: number; // 用户id
+	treeName: string; // 树节点名
+}
+
+/**
+ * 测试单表业务对象 test_demo
+ */
+export interface TestDemoBo {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	id: number; // 主键
+	deptId: number; // 部门id
+	userId: number; // 用户id
+	orderNum: number; // 排序号
+	testKey: string; // key键
+	value: string; // 值
+}
+
+/**
+ * 终转办务请求对象
+ */
+export interface TransmitBo {
+	taskId: string; // 任务id
+	userId: string; // 转办人id
+	comment?: string; // 审批意见
+}
+
+/**
+ * 终止任务请求对象
+ */
+export interface TerminationBo {
+	taskId: string; // 任务id
+	comment?: string; // 审批意见
+}
+
+/**
+ * 启动流程对象
+ */
+export interface StartProcessBo {
+	businessKey: string; // 业务唯一值id
+	tableName: string; // 表名
+	variables?: Record<string, unknown>; // 流程变量，前端会提交一个元素{'entity': {业务详情数据对象}}
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RMapStringObject {
+	code?: number;
+	msg?: string;
+	data?: Record<string, unknown>;
+}
+
+/**
+ * 减签参数请求
+ */
+export interface DeleteMultiBo {
+	taskId: string; // 任务ID
+	taskIds: string[]; // 减签人员
+	executionIds: string[]; // 执行id
+	assigneeIds: number[]; // 人员id
+	assigneeNames: string[]; // 人员名称
+}
+
+/**
+ * 委派任务请求对象
+ */
+export interface DelegateBo {
+	userId: string; // 委派人id
+	nickName: string; // 委派人名称
+	taskId: string; // 任务id
+}
+
+/**
+ * 办理任务请求对象
+ */
+export interface CompleteTaskBo {
+	taskId: string; // 任务id
+	fileId?: string; // 附件id
+	wfCopyList?: WfCopy[]; // 抄送人员
+	messageType?: string[]; // 消息类型
+	message?: string; // 办理意见
+	variables?: Record<string, unknown>; // 流程变量
+}
+
+/**
+ * 抄送
+ */
+export interface WfCopy {
+	userId?: number; // 用户id
+	userName?: string; // 用户名称
+}
+
+/**
+ * 驳回参数请求
+ */
+export interface BackProcessBo {
+	taskId: string; // 任务ID
+	messageType?: string[]; // 消息类型
+	targetActivityId: string; // 驳回的节点id(目前未使用，直接驳回到申请人)
+	message?: string; // 办理意见
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RString {
+	code?: number;
+	msg?: string;
+	data?: string;
+}
+
+/**
+ * 加签参数请求
+ */
+export interface AddMultiBo {
+	taskId: string; // 任务ID
+	assignees: number[]; // 加签人员id
+	assigneeNames: string[]; // 加签人员名称
+}
+
+/**
+ * 任务催办
+ */
+export interface TaskUrgingBo {
+	processInstanceId?: string; // 流程实例id
+	messageType?: string[]; // 消息类型
+	message?: string; // 催办内容（为空默认系统内置信息）
+}
+
+/**
+ * 流程实例作废请求对象
+ */
+export interface ProcessInvalidBo {
+	businessKey: string; // 业务id
+	deleteReason?: string; // 作废原因
+}
+
+/**
+ * 流程定义配置业务对象 wf_form_definition
+ */
+export interface WfDefinitionConfigBo {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	id: number; // 主键
+	tableName: string; // 表名
+	definitionId: string; // 流程定义ID
+	processKey: string; // 流程KEY
+	version: number; // 流程版本
+	remark?: string; // 备注
+}
+
+/**
  * 用户头像信息
  */
 export interface AvatarVo {
@@ -410,6 +752,571 @@ export interface SysLogininforBo {
 }
 
 /**
+ * 带有下拉选的Excel导出
+ */
+export interface ExportDemoVo {
+	nickName: string; // 用户昵称
+	userStatus: string; // 用户类型
+ </p>
+ 使用ExcelEnumFormat注解需要进行下拉选的部分
+	gender: string; // 性别
+ <p>
+ 使用ExcelDictFormat注解需要进行下拉选的部分
+	phoneNumber: string; // 手机号
+	email: string; // Email
+	province: string; // 省
+ <p>
+ 级联下拉，仅判断是否选了
+	provinceId: number; // 数据库中的省ID
+ </p>
+ 处理完毕后再判断是否市正确的值
+	city: string; // 市
+ <p>
+ 级联下拉
+	cityId: number; // 数据库中的市ID
+	area: string; // 县
+ <p>
+ 级联下拉
+	areaId: number; // 数据库中的县ID
+}
+
+/**
+ * 三方登录对象
+ */
+export interface SocialLoginBody {
+	clientId: string; // 客户端id
+	grantType: string; // 授权类型
+	tenantId?: string; // 租户ID
+	code?: string; // 验证码
+	uuid?: string; // 唯一标识
+	source: string; // 第三方登录平台
+	socialCode: string; // 第三方登录code
+	socialState: string; // 第三方登录socialState
+}
+
+/**
+ * 用户注册对象
+ */
+export interface RegisterBody {
+	clientId: string; // 客户端id
+	grantType: string; // 授权类型
+	tenantId?: string; // 租户ID
+	code?: string; // 验证码
+	uuid?: string; // 唯一标识
+	username: string; // 用户名
+	password: string; // 用户密码
+	userType?: string;
+}
+
+/**
+ * 登录验证信息
+ */
+export interface LoginVo {
+	scope?: string; // 令牌权限
+	openid?: string; // 用户 openid
+	access_token?: string; // 授权令牌
+	refresh_token?: string; // 刷新令牌
+	expire_in?: number; // 授权令牌 access_token 的有效期
+	refresh_expire_in?: number; // 刷新令牌 refresh_token 的有效期
+	client_id?: string; // 应用id
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RLoginVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListWfTaskBackNode {
+	code?: number;
+	msg?: string;
+	data?: WfTaskBackNode[];
+}
+
+/**
+ * 节点驳回记录 wf_task_back_node
+ */
+export interface WfTaskBackNode {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	tenantId?: string; // 租户编号
+	id?: number; // 主键
+	instanceId?: string; // 实例id
+	nodeId?: string; // 节点id
+	nodeName?: string; // 节点名称
+	orderNo?: number; // 排序
+	taskType?: string; // 节点类型
+	assignee?: string; // 办理人
+}
+
+/**
+ * 参与者
+ */
+export interface ParticipantVo {
+	groupIds?: number[]; // 组id（角色id）
+	candidate?: number[]; // 候选人id（用户id） 当组id不为空时，将组内人员查出放入candidate
+	candidateName?: string[]; // 候选人名称（用户名称） 当组id不为空时，将组内人员查出放入candidateName
+	claim?: boolean; // 是否认领标识
+ 当为空时默认当前任务不需要认领
+ 当为true时当前任务说明为候选模式并且有人已经认领了任务可以归还，
+ 当为false时当前任务说明为候选模式该任务未认领，
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RTaskVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 任务视图
+ */
+export interface TaskVo {
+	id?: string; // 任务id
+	name?: string; // 任务名称
+	description?: string; // 描述
+	priority?: number; // 优先级
+	owner?: string; // 负责此任务的人员的用户id
+	assignee?: number; // 办理人id
+	assigneeName?: string; // 办理人
+	processInstanceId?: string; // 流程实例id
+	executionId?: string; // 执行id
+	taskDefinitionId?: string; // 无用
+	processDefinitionId?: string; // 流程定义id
+	createTime?: string; // 创建时间
+	startTime?: string; // 已办任务-创建时间
+	endTime?: string; // 结束时间
+	taskDefinitionKey?: string; // 节点id
+	dueDate?: string; // 任务截止日期
+	category?: string; // 流程类别
+	parentTaskId?: string; // 父级任务id
+	tenantId?: string; // 租户id
+	claimTime?: string; // 认领时间
+	businessStatus?: string; // 流程状态
+	businessStatusName?: string; // 流程状态
+	processDefinitionName?: string; // 流程定义名称
+	processDefinitionKey?: string; // 流程定义key
+	processDefinitionVersion?: number; // 流程定义版本
+	participantVo?: unknown;
+	multiInstance?: boolean; // 是否会签
+	businessKey?: string; // 业务id
+	wfDefinitionConfigVo?: unknown;
+	wfNodeConfigVo?: unknown;
+}
+
+/**
+ * 流程定义配置视图对象 wf_definition_config
+ */
+export interface WfDefinitionConfigVo {
+	id?: number; // 主键
+	tableName?: string; // 表名
+	definitionId?: string; // 流程定义ID
+	processKey?: string; // 流程KEY
+	version?: number; // 流程版本
+	remark?: string; // 备注
+	wfFormManageVo?: unknown;
+}
+
+/**
+ * 表单管理视图对象 wf_form_manage
+ */
+export interface WfFormManageVo {
+	id?: number; // 主键
+	formName?: string; // 表单名称
+	formType?: string; // 表单类型
+	formTypeName?: string; // 表单类型名称
+	router?: string; // 路由地址/表单ID
+	remark?: string; // 备注
+}
+
+/**
+ * 节点配置视图对象 wf_node_config
+ */
+export interface WfNodeConfigVo {
+	id?: number; // 主键
+	formId?: number; // 表单id
+	formType?: string; // 表单类型
+	nodeName?: string; // 节点名称
+	nodeId?: string; // 节点id
+	definitionId?: string; // 流程定义id
+	applyUserTask?: string; // 是否为申请人节点 （0是 1否）
+	wfFormManageVo?: unknown;
+}
+
+/**
+ * 任务请求对象
+ */
+export interface TaskBo {
+	name?: string; // 任务名称
+	processDefinitionName?: string; // 流程定义名称
+	processDefinitionKey?: string; // 流程定义key
+}
+
+/**
+ * 分页查询实体类
+ */
+export interface PageQuery {
+	pageSize?: number; // 分页大小
+	pageNum?: number; // 当前页数
+	orderByColumn?: string; // 排序列
+	isAsc?: string; // 排序的方向desc或者asc
+	firstNum?: number;
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoTaskVo {
+	total?: number; // 总记录数
+	rows?: TaskVo[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListTaskVo {
+	code?: number;
+	msg?: string;
+	data?: TaskVo[];
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListVariableVo {
+	code?: number;
+	msg?: string;
+	data?: VariableVo[];
+}
+
+/**
+ * 流程变量
+ */
+export interface VariableVo {
+	key?: string; // 变量key
+	value?: string; // 变量值
+}
+
+/**
+ * 流程实例请求对象
+ */
+export interface ProcessInstanceBo {
+	name?: string; // 流程名称
+	key?: string; // 流程key
+	startUserId?: string; // 任务发起人
+	businessKey?: string; // 业务id
+	categoryCode?: string; // 模型分类
+}
+
+/**
+ * 流程实例视图
+ */
+export interface ProcessInstanceVo {
+	id?: string; // 流程实例id
+	processDefinitionId?: string; // 流程定义id
+	processDefinitionName?: string; // 流程定义名称
+	processDefinitionKey?: string; // 流程定义key
+	processDefinitionVersion?: number; // 流程定义版本
+	deploymentId?: string; // 部署id
+	businessKey?: string; // 业务id
+	isSuspended?: boolean; // 是否挂起
+	tenantId?: string; // 租户id
+	startTime?: string; // 启动时间
+	endTime?: string; // 结束时间
+	startUserId?: string; // 启动人id
+	businessStatus?: string; // 流程状态
+	businessStatusName?: string; // 流程状态
+	taskVoList?: TaskVo[]; // 待办任务集合
+	wfNodeConfigVo?: unknown;
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoProcessInstanceVo {
+	total?: number; // 总记录数
+	rows?: ProcessInstanceVo[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
+ * 流程审批记录视图
+ */
+export interface ActHistoryInfoVo {
+	id?: string; // 任务id
+	taskDefinitionKey?: string; // 节点id
+	name?: string; // 任务名称
+	processInstanceId?: string; // 流程实例id
+	version?: number; // 版本
+	startTime?: string; // 开始时间
+	endTime?: string; // 结束时间
+	runDuration?: string; // 运行时长
+	status?: string; // 状态
+	statusName?: string; // 状态
+	assignee?: string; // 办理人id
+	nickName?: string; // 办理人名称
+	owner?: string; // 办理人id
+	commentId?: string; // 审批信息id
+	comment?: string; // 审批信息
+	attachmentList?: Attachment[]; // 审批附件
+}
+
+/**
+ * 
+ */
+export interface Attachment {
+	name?: string;
+	id?: string;
+	type?: string;
+	time?: string;
+	description?: string;
+	processInstanceId?: string;
+	url?: string;
+	userId?: string;
+	contentId?: string;
+	taskId?: string;
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListActHistoryInfoVo {
+	code?: number;
+	msg?: string;
+	data?: ActHistoryInfoVo[];
+}
+
+/**
+ * 流程定义请求对象
+ */
+export interface ProcessDefinitionBo {
+	key?: string; // 流程定义名称key
+	name?: string; // 流程定义名称
+	categoryCode?: string; // 模型分类
+}
+
+/**
+ * 流程定义视图
+ */
+export interface ProcessDefinitionVo {
+	id?: string; // 流程定义id
+	name?: string; // 流程定义名称
+	key?: string; // 流程定义标识key
+	version?: number; // 流程定义版本
+	suspensionState?: number; // 流程定义挂起或激活 1激活 2挂起
+	resourceName?: string; // 流程xml名称
+	diagramResourceName?: string; // 流程图片名称
+	deploymentId?: string; // 流程部署id
+	deploymentTime?: string; // 流程部署时间
+	wfDefinitionConfigVo?: unknown;
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoProcessDefinitionVo {
+	total?: number; // 总记录数
+	rows?: ProcessDefinitionVo[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListProcessDefinitionVo {
+	code?: number;
+	msg?: string;
+	data?: ProcessDefinitionVo[];
+}
+
+/**
+ * 
+ */
+export interface Model {
+	name?: string;
+	key?: string;
+	id?: string;
+	version?: number;
+	category?: string;
+	metaInfo?: string;
+	deploymentId?: string;
+	createTime?: string;
+	tenantId?: string;
+	lastUpdateTime?: string;
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoModel {
+	total?: number; // 总记录数
+	rows?: Model[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
+ * 模型视图对象
+ */
+export interface ModelVo {
+	id?: string; // 模型id
+	name?: string; // 模型名称
+	key?: string; // 模型标识key
+	categoryCode?: string; // 模型分类
+	xml?: string; // 模型XML
+	description?: string; // 备注
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RModelVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoTestLeaveVo {
+	total?: number; // 总记录数
+	rows?: TestLeaveVo[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RWfFormManageVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoWfFormManageVo {
+	total?: number; // 总记录数
+	rows?: WfFormManageVo[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListWfFormManageVo {
+	code?: number;
+	msg?: string;
+	data?: WfFormManageVo[];
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListWfDefinitionConfigVo {
+	code?: number;
+	msg?: string;
+	data?: WfDefinitionConfigVo[];
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RWfDefinitionConfigVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RWfCategoryVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 流程分类视图对象 wf_category
+ */
+export interface WfCategoryVo {
+	id?: number; // 主键
+	categoryName?: string; // 分类名称
+	categoryCode?: string; // 分类编码
+	parentId?: number; // 父级id
+	sortNum?: number; // 排序
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListWfCategoryVo {
+	code?: number;
+	msg?: string;
+	data?: WfCategoryVo[];
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RMapStringString {
+	code?: number;
+	msg?: string;
+	data?: Record<string, unknown>;
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoGenTable {
+	total?: number; // 总记录数
+	rows?: GenTable[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RObject {
+	code?: number;
+	msg?: string;
+	data?: Record<string, unknown>;
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoGenTableColumn {
+	total?: number; // 总记录数
+	rows?: GenTableColumn[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
  * 用户个人信息
  */
 export interface ProfileVo {
@@ -478,17 +1385,6 @@ export interface RListSysUserVo {
 	code?: number;
 	msg?: string;
 	data?: SysUserVo[];
-}
-
-/**
- * 分页查询实体类
- */
-export interface PageQuery {
-	pageSize?: number; // 分页大小
-	pageNum?: number; // 当前页数
-	orderByColumn?: string; // 排序列
-	isAsc?: string; // 排序的方向desc或者asc
-	firstNum?: number;
 }
 
 /**
@@ -1060,15 +1956,6 @@ export interface TableDataInfoSysConfigVo {
 /**
  * 响应信息主体
  */
-export interface RString {
-	code?: number;
-	msg?: string;
-	data?: string;
-}
-
-/**
- * 响应信息主体
- */
 export interface RSysClientVo {
 	code?: number;
 	msg?: string;
@@ -1099,6 +1986,13 @@ export interface TableDataInfoSysClientVo {
 	rows?: SysClientVo[]; // 列表数据
 	code?: number; // 消息状态码
 	msg?: string; // 消息内容
+}
+
+/**
+ * 
+ */
+export interface SseEmitter {
+	timeout?: number;
 }
 
 /**
@@ -1294,6 +2188,201 @@ export interface CacheListInfoVo {
  * 响应信息主体
  */
 export interface RCacheListInfoVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 消息的dto
+ */
+export interface WebSocketMessageDto {
+	sessionKeys?: number[]; // 需要推送到的session key 列表
+	message?: string; // 需要发送的消息
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RTestTreeVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 测试树表视图对象 test_tree
+ */
+export interface TestTreeVo {
+	id?: number; // 主键
+	parentId?: number; // 父id
+	deptId?: number; // 部门id
+	userId?: number; // 用户id
+	treeName?: string; // 树节点名
+	createTime?: string; // 创建时间
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RListTestTreeVo {
+	code?: number;
+	msg?: string;
+	data?: TestTreeVo[];
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RTestSensitive {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 
+ */
+export interface TestSensitive {
+	idCard?: string; // 身份证
+	phone?: string; // 电话
+	address?: string; // 地址
+	email?: string; // 邮箱
+	bankCard?: string; // 银行卡
+}
+
+/**
+ * 
+ */
+export interface TestI18nBo {
+	name: string;
+	age: number;
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RTestI18nBo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RMapStringTestDemoEncrypt {
+	code?: number;
+	msg?: string;
+	data?: Record<string, unknown>;
+}
+
+/**
+ * 
+ */
+export interface TestDemoEncrypt {
+	createDept?: number; // 创建部门
+	createBy?: number; // 创建者
+	createTime?: string; // 创建时间
+	updateBy?: number; // 更新者
+	updateTime?: string; // 更新时间
+	params?: Record<string, unknown>; // 请求参数
+	tenantId?: string; // 租户编号
+	id?: number; // 主键
+	deptId?: number; // 部门id
+	userId?: number; // 用户id
+	orderNum?: number; // 排序号
+	testKey?: string; // key键
+	value?: string; // 值
+	version?: number; // 版本
+	delFlag?: number; // 删除标志
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RTestDemoVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 测试单表视图对象 test_demo
+ */
+export interface TestDemoVo {
+	id?: number; // 主键
+	deptId?: number; // 部门id
+	userId?: number; // 用户id
+	orderNum?: number; // 排序号
+	testKey?: string; // key键
+	value?: string; // 值
+	createTime?: string; // 创建时间
+	createBy?: number; // 创建人
+	createByName?: string; // 创建人账号
+	updateTime?: string; // 更新时间
+	updateBy?: number; // 更新人
+	updateByName?: string; // 更新人账号
+}
+
+/**
+ * 表格分页数据对象
+ */
+export interface TableDataInfoTestDemoVo {
+	total?: number; // 总记录数
+	rows?: TestDemoVo[]; // 列表数据
+	code?: number; // 消息状态码
+	msg?: string; // 消息内容
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RBoolean {
+	code?: number;
+	msg?: string;
+	data?: boolean;
+}
+
+/**
+ * 登录租户对象
+ */
+export interface LoginTenantVo {
+	tenantEnabled?: boolean; // 租户开关
+	voList?: TenantListVo[]; // 租户对象列表
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RLoginTenantVo {
+	code?: number;
+	msg?: string;
+	data?: unknown;
+}
+
+/**
+ * 租户列表
+ */
+export interface TenantListVo {
+	tenantId?: string; // 租户编号
+	companyName?: string; // 企业名称
+	domain?: string; // 域名
+}
+
+/**
+ * 验证码信息
+ */
+export interface CaptchaVo {
+	captchaEnabled?: boolean; // 是否开启验证码
+	uuid?: string;
+	img?: string; // 验证码图片
+}
+
+/**
+ * 响应信息主体
+ */
+export interface RCaptchaVo {
 	code?: number;
 	msg?: string;
 	data?: unknown;

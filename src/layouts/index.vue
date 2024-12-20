@@ -8,14 +8,14 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: 'LayoutIndex',
-})
+	name: 'LayoutIndex',
+});
 
-const watermark = ref(true)
+const watermark = ref(true);
 const font = {
-  color: 'rgba(0, 0, 0, 0.15)',
-  fontSize: 16,
-}
+	color: 'rgba(0, 0, 0, 0.15)',
+	fontSize: 16,
+};
 </script>
 
 <style scoped lang="scss">

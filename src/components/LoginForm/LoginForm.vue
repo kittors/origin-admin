@@ -16,6 +16,7 @@
         placeholder="密码：123456"
         show-password
         autocomplete="new-password"
+        class="password-input"
       >
         <template #prefix>
           <el-icon class="el-input__icon">
@@ -23,6 +24,10 @@
           </el-icon>
         </template>
       </el-input>
+      <!-- 验证码 -->
+      <div class="login-code">
+        <img src="" alt="" />
+      </div>
     </el-form-item>
   </el-form>
   <div class="login-btn">

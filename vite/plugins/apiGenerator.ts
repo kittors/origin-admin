@@ -215,19 +215,139 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 
 	// 按 tag 分组
 	const apisByTag = new Map<string, PathItem[]>();
+	const otherApis: PathItem[] = []; // 新增：存储未分类的接口
 
 	for (const [path, methods] of Object.entries(paths)) {
 		for (const [method, operation] of Object.entries(methods)) {
 			const tag = operation.tags?.[0] || 'common';
-			if (!apisByTag.has(tag)) {
-				apisByTag.set(tag, []);
+			const fileName = tagNameMap[tag];
+
+			// 如果在 tagNameMap 中找不到对应的文件名，将接口添加到 otherApis
+			if (!fileName && tag !== 'common') {
+				otherApis.push({
+					...operation,
+					path: path || '',
+					method: method || ''
+				});
+			} else {
+				if (!apisByTag.has(tag)) {
+					apisByTag.set(tag, []);
+				}
+				apisByTag.get(tag)?.push({
+					...operation,
+					path: path || '',
+					method: method || ''
+				});
 			}
-			apisByTag.get(tag)?.push({
-				...operation,
-				path: path || '',  // 提供默认值
-				method: method || ''
-			});
 		}
+	}
+
+	// 如果有未分类的接口，将它们添加到 other.ts
+	if (otherApis.length > 0) {
+		let content = `import http from '@/api';\n`;
+		content += `import type { ${collectTypesForTag(otherApis)} } from './types/api-types';\n\n`;
+		content += `/**\n * @name 其他未分类接口\n */\n`;
+
+		// ... 生成接口代码的现有逻辑 ...
+		// 这里复用现有的接口生成逻辑，处理 otherApis 数组
+		for (const operation of otherApis) {
+			// 分离路径参数和查询参数
+			let pathParams: Array<{ name: string; type: string }> = [];
+			let queryParams: Array<{ name: string; type: string; required: boolean }> = [];
+
+			if (operation.parameters?.length) {
+				for (const param of operation.parameters) {
+					const paramType = getParamType(param.schema);
+					if (param.in === 'path') {
+						pathParams.push({ name: param.name, type: paramType });
+					} else if (param.in === 'query') {
+						queryParams.push({
+							name: param.name,
+							type: paramType,
+							required: param.required || false
+						});
+					}
+				}
+			}
+
+			// 生成参数类型和判断是否有参数
+			let paramsType = '';
+			let hasParams = false;
+
+			// 处理 requestBody
+			if (operation.requestBody?.content) {
+				const contentTypes = Object.keys(operation.requestBody.content);
+				for (const contentType of contentTypes) {
+					hasParams = true;
+					const schema = operation.requestBody.content[contentType].schema;
+
+					if (contentType === 'multipart/form-data') {
+						paramsType = 'FormData';
+						break;  // 找到 multipart/form-data 后直接跳出
+					} else if (contentType === 'application/json' && schema.$ref) {
+						paramsType = schema.$ref.split('/').pop() || 'unknown';
+					} else {
+						paramsType = 'Record<string, unknown>';
+					}
+				}
+			}
+			// 处理 URL 参数
+			else if (operation.parameters?.length) {
+				hasParams = true;
+				const params = [
+					...pathParams.map(p => `${p.name}: ${p.type}`),
+					...queryParams.map(p => `${p.name}${p.required ? '' : '?'}: ${p.type}`)
+				];
+				paramsType = `{\n\t\t${params.join(';\n\t\t')}\n\t}`;
+			}
+
+			// 处理路径参数替换
+			const urlPath = operation.path.replace(/\{([^}]+)\}/g, '${params.$1}');
+
+			// 修改响应类型处理
+			const responseType = getResponseType(operation);
+			// 移除 ResultData 包装
+			const wrappedResponseType = responseType;
+
+			// 修改请求配置生成
+			const method = operation.method.toLowerCase();
+			let requestConfig = '';
+
+			if (hasParams) {
+				const isMultipart = operation.requestBody?.content?.['multipart/form-data'];
+				switch (method) {
+					case 'get':
+						requestConfig = ', { params }';
+						break;
+					case 'post':
+					case 'put':
+						if (isMultipart) {
+							requestConfig = ', params, { headers: { "Content-Type": "multipart/form-data" } }';
+						} else {
+							requestConfig = ', params';
+						}
+						break;
+					case 'delete':
+						requestConfig = ', { params }';
+						break;
+					default:
+						requestConfig = ', params';
+				}
+			}
+
+			content += `
+			/**
+			 * ${operation.summary || ''}
+			 * @description ${operation.description || ''}
+			 */
+			export const ${generateApiName(operation.path, operation.operationId)} = (${hasParams ? `params: ${paramsType}` : ''}) => {
+				return http.${method}<${wrappedResponseType}>(
+					\`${urlPath}\`${requestConfig}
+				);
+			};\n`;
+		}
+
+		fs.writeFileSync(resolve(baseOutputPath, 'other.ts'), content);
 	}
 
 	// 记录生成的模块数量
