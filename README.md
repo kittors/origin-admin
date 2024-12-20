@@ -13,11 +13,17 @@
 - 🦾 TypeScript 支持
 - 📦 [Pinia](https://pinia.vuejs.org/) 状态管理
 - 🔐 基于角色的权限控制
+- 🛠️ [Biome](https://biomejs.dev/) - 高性能代码格式化和 Linting 工具
+- 🔄 基于 OpenAPI 3.0 的接口代码自动生成
 
 ## 📦 预设环境
 
-- Node.js 16.x
-- pnpm 7.x
+- Node.js >= 20.17.0
+- pnpm >= 9.10.0
+
+> 推荐使用 [nvm](https://github.com/nvm-sh/nvm) 管理 Node.js 版本
+>
+> 推荐使用 [corepack](https://nodejs.org/api/corepack.html) 管理包管理器版本
 
 ## 🎮 开发
 
@@ -27,6 +33,9 @@ git clone https://github.com/kittors/origin-admin.git
 
 # 进入项目目录
 cd origin-admin
+
+# 启用 pnpm
+corepack enable
 
 # 安装依赖
 pnpm install
@@ -60,10 +69,24 @@ pnpm test:e2e --debug
 
 ## 🔨 代码质量
 
-- 使用 ESLint 进行代码检查
-- 使用 Prettier 进行代码格式化
-- 使用 husky 进行 Git Hook 管理
-- 使用 commitlint 进行提交信息规范化
+- 使用 [Biome](https://biomejs.dev/) 进行代码检查和格式化
+
+  ```bash
+  # 格式化代码
+  pnpm format
+
+  # 代码检查
+  pnpm lint
+
+  # 自动修复
+  pnpm check
+  ```
+
+- 支持 API 接口代码自动生成
+  ```bash
+  # 根据 OpenAPI 规范生成接口代码
+  pnpm api:generate
+  ```
 
 ## 📝 开发工具推荐
 
