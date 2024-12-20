@@ -17,9 +17,10 @@
 </template>
 
 <script setup lang="ts">
+logger.success('login');
 defineOptions({
-  name: 'LoginIndex',
-})
+	name: 'LoginIndex',
+});
 </script>
 
 <style scoped lang="scss">

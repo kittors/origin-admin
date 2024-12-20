@@ -7,7 +7,15 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["src/typings/auto-imports.d.ts", "src/typings/components.d.ts"]
+		"ignore": [
+			"src/typings/auto-imports.d.ts",
+			"src/typings/components.d.ts",
+			"src/utils/logger.ts",
+			"src/api/modules/**/*.ts",
+			"vite/**",
+			"node_modules/*",
+			"scripts/*"
+		]
 	},
 	"formatter": {
 		"enabled": true,
