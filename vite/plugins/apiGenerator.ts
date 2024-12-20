@@ -69,31 +69,18 @@ function cleanHtmlTags(text: string): string {
 }
 
 function generateTypeDefinition(schema: Schema, name: string): string {
-	// 处理 schema 的 description，清理 HTML 标签并在每个 \n 后面添加 //
 	const schemaDescription = schema.description
 		? cleanHtmlTags(schema.description).replace(/\n/g, '\n// ')
 		: '';
-
-	// 调试日志
-	if(schema.description && schema.description.includes('\n')){
-		logger.info('Found multiline description:', schema.description);
-	}
 
 	let content = `/**\n * ${schemaDescription}\n */\n`;
 	content += `export interface ${name} {\n`;
 
 	for (const [propName, prop] of Object.entries<SchemaProperty>(schema.properties)) {
 		const required = schema.required?.includes(propName);
-
-		// 处理属性的 description，清理 HTML 标签并在每个 \n 后面添加 //
 		const description = prop.description
 			? ` // ${cleanHtmlTags(prop.description).replace(/\n/g, '\n// ')}`
 			: '';
-
-		// 调试日志
-		if(prop.description && prop.description.includes('\n')){
-			logger.info(`Found multiline property description in ${propName}:`, prop.description);
-		}
 
 		let type: string;
 
@@ -182,15 +169,45 @@ function getParamType(schema: SchemaProperty): string {
 function generateTagNameMap(paths: Record<string, Record<string, PathItem>>): Record<string, string> {
 	const tagPathMap = new Map<string, Set<string>>();
 
-	// 遍历所有路径和方法
+	// 智能映射规则
+	const getModuleName = (tag: string): string | null => {
+		// 1. 清理标签名称中的特殊字符和空格
+		const cleanTag = tag.replace(/[（(].*[)）]|控制层|操作处理|信息|业务处理|\s+/g, '').trim();
+
+		// 2. 常见的中文词转英文映射
+		const commonMappings: Record<string, string> = {
+			'验证码': 'captcha',
+			'文件上传': 'file-upload',
+			'短信': 'sms',
+			'用户': 'user',
+			'角色': 'role',
+			'菜单': 'menu',
+			'部门': 'dept',
+			'字典': 'dict',
+			'配置': 'config',
+			'日志': 'log'
+		};
+
+		// 3. 尝试从常见映射中找到匹配
+		for (const [cn, en] of Object.entries(commonMappings)) {
+			if (cleanTag.includes(cn)) {
+				return en;
+			}
+		}
+
+		// 4. 如果没有匹配到，返回 null
+		return null;
+	};
+
+	// 收集所有标签和路径的映射
 	for (const [path, methods] of Object.entries(paths)) {
 		for (const [_, operation] of Object.entries(methods)) {
 			if (operation.tags?.[0]) {
-				const pathParts = path.split('/').filter(Boolean);
-				if (pathParts.length >= 2) {
-					const tag = operation.tags[0];
-					const moduleName = pathParts[1];
+				const tag = operation.tags[0];
+				const moduleName = getModuleName(tag);
 
+				// 只有成功匹配到的才加入映射
+				if (moduleName) {
 					if (!tagPathMap.has(tag)) {
 						tagPathMap.set(tag, new Set());
 					}
@@ -200,19 +217,12 @@ function generateTagNameMap(paths: Record<string, Record<string, PathItem>>): Re
 		}
 	}
 
-	// 生成映射
-	const autoTagNameMap: Record<string, string> = {};
-	for (const [tag, paths] of tagPathMap) {
-		const moduleName = Array.from(paths)[0];
-		autoTagNameMap[tag] = moduleName;
+	// 生成最终的映射
+	const finalTagNameMap: Record<string, string> = {};
+	for (const [tag, moduleNames] of tagPathMap) {
+		const moduleName = Array.from(moduleNames)[0];
+		finalTagNameMap[tag] = moduleName;
 	}
-
-	// 合并自动生成的映射和手动配置的映射
-	const finalTagNameMap = {
-		...autoTagNameMap,
-		"文件上传 控制层": "file-upload",
-		"common": "common"
-	};
 
 	// 确保配置目录存在
 	const configPath = resolve(process.cwd(), 'src/api/modules/config');
@@ -227,24 +237,57 @@ function generateTagNameMap(paths: Record<string, Record<string, PathItem>>): Re
 export const tagNameMap: Record<string, string> = ${JSON.stringify(finalTagNameMap, null, 2)};
 `;
 
-	// 写入文件
+	// 写入文���
 	fs.writeFileSync(resolve(configPath, 'tag-map.ts'), fileContent);
 	logger.success('标签映射文件生成成功！');
 
 	return finalTagNameMap;
 }
 
-function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void {
+function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
+	let generatedCount = 0;
+
+	// 统计所有接口和标签
+	const allTags = new Set<string>();
+	const tagStats: Record<string, number> = {};
+	let totalApiCount = 0;
+
+	for (const [_, methods] of Object.entries(paths)) {
+		for (const [_, operation] of Object.entries(methods)) {
+			totalApiCount++;
+			const tag = operation.tags?.[0] || 'common';
+			tagStats[tag] = (tagStats[tag] || 0) + 1;
+			if (tag) allTags.add(tag);
+		}
+	}
+
 	// 生成标签映射
 	const tagNameMap = generateTagNameMap(paths);
 
-	// 按 tag 分组
+	// logger.info('所有的标签:', Array.from(allTags));
+	// logger.info('成功映射的标签:', Object.keys(tagNameMap));
+	// logger.info('未能映射的标签:', Array.from(allTags).filter(tag => !tagNameMap[tag]));
+	// logger.info('每个标签的接口数量:', tagStats);
+	// logger.info(`总接口数: ${totalApiCount}, 已映射接口数: ${Object.values(tagStats).reduce((a, b) => a + b, 0)}`);
+
+	// 按 tag 分组时统计每个分组的接口数量
 	const apisByTag = new Map<string, PathItem[]>();
-	const otherApis: PathItem[] = []; // 新增：存储未分类的接口
+	const otherApis: PathItem[] = [];
+
 
 	for (const [path, methods] of Object.entries(paths)) {
 		for (const [method, operation] of Object.entries(methods)) {
 			const tag = operation.tags?.[0] || 'common';
+
+			// 检查特定接口
+			// if (path === '/auth/code' && method.toLowerCase() === 'get') {
+			// 	logger.info('找到验证码接口:', {
+			// 		path,
+			// 		method,
+			// 		tag,
+			// 		operation
+			// 	});
+			// }
 
 			// 特殊处理首页接口
 			if (tag === '首页' || operation.operationId === 'index') {
@@ -281,7 +324,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 		}
 	}
 
-	// 如果有未分类的接口，将它们加到 other.ts
+	// 如果有未分类的接口，将它们加�� other.ts
 	if (otherApis.length > 0) {
 		let content = `import http from '@/api';\n`;
 		content += `import type { ${collectTypesForTag(otherApis)} } from './types/api-types';\n\n`;
@@ -388,9 +431,6 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 
 		fs.writeFileSync(resolve(baseOutputPath, 'other.ts'), content);
 	}
-
-	// 记录生成的模��数量
-	let generatedCount = 0;
 
 	// 为每个 tag 生成单独的文件
 	for (const [tag, operations] of apisByTag) {
@@ -502,10 +542,39 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 		generatedCount++;
 	}
 
-	// 所有文件生成完成后，只打印一次成功消息
+	// 所有文件生成完成后，打印总计数
 	if (generatedCount > 0) {
-		logger.success(`成功生成 ${generatedCount} ���模块的接口文件！`);
+		logger.success(`成功生成 ${generatedCount} 个模块，共 ${totalApiCount} 个接口！`);
 	}
+
+	// 生成日志文件
+	const logPath = resolve(baseOutputPath, 'log');
+	fs.mkdirSync(logPath, { recursive: true });
+
+	const logContent = `/**
+ * API 生成器运行日志
+ * 记录时间: ${new Date().toISOString()}
+ */
+
+interface ApiGeneratorLog {
+    totalApiCount: number;
+    generatedModules: number;
+    allTags: string[];
+    mappedTags: string[];
+    unmappedTags: string[];
+    tagStats: Record<string, number>;
+}
+
+export const apiGeneratorLog: ApiGeneratorLog = {
+    totalApiCount: ${totalApiCount},
+    generatedModules: ${generatedCount},
+    allTags: ${JSON.stringify(Array.from(allTags), null, 4)},
+    mappedTags: ${JSON.stringify(Object.keys(tagNameMap), null, 4)},
+    unmappedTags: ${JSON.stringify(Array.from(allTags).filter(tag => !tagNameMap[tag]), null, 4)},
+    tagStats: ${JSON.stringify(tagStats, null, 4)}
+};`;
+
+	fs.writeFileSync(resolve(logPath, 'log.ts'), logContent);
 }
 
 function collectTypesForTag(operations: PathItem[]): string {
@@ -616,7 +685,28 @@ export default function apiGeneratorPlugin(viteEnv: ViteEnv) {
 
 				if (apiDoc.paths) {
 					logger.info('开始生成接口文档...');
-					generateApiFiles(apiDoc.paths);
+
+					// 统计接口总数
+					const totalPaths = Object.entries(apiDoc.paths as Record<string, Record<string, unknown>>).reduce((count, [_, methods]) => {
+						return count + Object.keys(methods).length;
+					}, 0);
+
+					logger.info(`OpenAPI 文档中共有 ${totalPaths} 个接口定义`);
+
+					// 修改 generateApiFiles 函数调用前的路径处理
+					const processedPaths = Object.entries(apiDoc.paths).reduce((acc: Record<string, Record<string, PathItem>>, [path, methods]) => {
+						acc[path] = Object.entries(methods as Record<string, unknown>).reduce((methodAcc: Record<string, PathItem>, [method, operation]) => {
+							methodAcc[method] = {
+								...operation as PathItem,
+								path,
+								method: method.toUpperCase()
+							};
+							return methodAcc;
+						}, {});
+						return acc;
+					}, {});
+
+					generateApiFiles(processedPaths);
 				} else {
 					logger.warning('未找到任何接口定义');
 				}
