@@ -31,3 +31,8 @@ coverage
 
 test-results/
 playwright-report/
+
+# 接口文件
+src/api/modules/
+
+vite/plugins/apiGenerator.ts

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { resolve } from 'node:path';
 import logger from '../../src/utils/logger';
+import { tagNameMap } from '../../src/api/config/tag-map';
 
 interface SchemaProperty {
 	type: string;
@@ -151,7 +152,68 @@ function getParamType(schema: SchemaProperty): string {
 	return schema.type === 'integer' ? 'number' : schema.type;
 }
 
+/**
+ * 从API路径自动生成标签映射并保存到文件
+ */
+function generateTagNameMap(paths: Record<string, Record<string, PathItem>>): Record<string, string> {
+	const tagPathMap = new Map<string, Set<string>>();
+
+	// 遍历所有路径和方法
+	for (const [path, methods] of Object.entries(paths)) {
+		for (const [_, operation] of Object.entries(methods)) {
+			if (operation.tags?.[0]) {
+				const pathParts = path.split('/').filter(Boolean);
+				if (pathParts.length >= 2) {
+					const tag = operation.tags[0];
+					const moduleName = pathParts[1];
+
+					if (!tagPathMap.has(tag)) {
+						tagPathMap.set(tag, new Set());
+					}
+					tagPathMap.get(tag)?.add(moduleName);
+				}
+			}
+		}
+	}
+
+	// 生成映射
+	const autoTagNameMap: Record<string, string> = {};
+	for (const [tag, paths] of tagPathMap) {
+		const moduleName = Array.from(paths)[0];
+		autoTagNameMap[tag] = moduleName;
+	}
+
+	// 合并自动生成的映射和手动配置的映射
+	const finalTagNameMap = {
+		...autoTagNameMap,
+		"文件上传 控制层": "file-upload",
+		"common": "common"
+	};
+
+	// 确保配置目录存在
+	const configPath = resolve(process.cwd(), 'src/api/modules/config');
+	fs.mkdirSync(configPath, { recursive: true });
+
+	// 生成 tag-map.ts 文件内容
+	const fileContent = `/**
+ * 自动生成的标签名称映射表
+ * 用于将中文标签名转换为英文文件名
+ * 该文件由 apiGenerator 自动生成，请勿手动修改
+ */
+export const tagNameMap: Record<string, string> = ${JSON.stringify(finalTagNameMap, null, 2)};
+`;
+
+	// 写入文件
+	fs.writeFileSync(resolve(configPath, 'tag-map.ts'), fileContent);
+	logger.success('标签映射文件生成成功！');
+
+	return finalTagNameMap;
+}
+
 function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void {
+	// 生成标签映射
+	const tagNameMap = generateTagNameMap(paths);
+
 	// 按 tag 分组
 	const apisByTag = new Map<string, PathItem[]>();
 
@@ -236,9 +298,8 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 
 			// 修改响应类型处理
 			const responseType = getResponseType(operation);
-			const wrappedResponseType = responseType === 'unknown' ?
-				'unknown' :
-				`ResultData<${responseType}>`;
+			// 移除 ResultData 包装
+			const wrappedResponseType = responseType;
 
 			// 修改请求配置生成
 			const method = operation.method.toLowerCase();
@@ -279,7 +340,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 		}
 
 		// 生成文件
-		const fileName = tag.toLowerCase().replace(/\s+/g, '-');
+		const fileName = tagNameMap[tag] || tag.toLowerCase().replace(/\s+/g, '-');
 		fs.writeFileSync(resolve(baseOutputPath, `${fileName}.ts`), content);
 		generatedCount++;
 	}
@@ -319,7 +380,7 @@ function collectTypesForTag(operations: PathItem[]): string {
 				if (param.schema.$ref) {
 					types.add(param.schema.$ref.split('/').pop() || '');
 				}
-				// 如果参数是数组类型，也需要收集数组项的类型
+				// 如���参数是数组类型，也需要收集数组项的类型
 				if (param.schema.type === 'array' && param.schema.items?.$ref) {
 					types.add(param.schema.items.$ref.split('/').pop() || '');
 				}
@@ -368,7 +429,7 @@ export default function apiGeneratorPlugin(viteEnv: ViteEnv) {
 
 				// 检查并输出 schemas
 				if (apiDoc.components?.schemas) {
-					logger.info('找到以下数据类型定义:');
+					logger.info('找到��下数据类型定义:');
 					const schemas = apiDoc.components.schemas;
 
 					// 输出所有可用的 schema 名称
