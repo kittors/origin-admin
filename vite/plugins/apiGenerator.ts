@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import { resolve } from 'node:path';
 import logger from '../../src/utils/logger';
-import { tagNameMap } from '../../src/api/config/tag-map';
 
 interface SchemaProperty {
 	type: string;
@@ -237,7 +236,6 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>): void
 	// 为每个 tag 生成单独的文件
 	for (const [tag, operations] of apisByTag) {
 		let content = `import http from '@/api';\n`;
-		content += `import type { Result, ResultData, ResPage } from '@/api/interface';\n`;
 		content += `import type { ${collectTypesForTag(operations)} } from './types/api-types';\n\n`;
 
 		content += `/**\n * @name ${tag}模块\n */\n`;
@@ -380,7 +378,7 @@ function collectTypesForTag(operations: PathItem[]): string {
 				if (param.schema.$ref) {
 					types.add(param.schema.$ref.split('/').pop() || '');
 				}
-				// 如���参数是数组类型，也需要收集数组项的类型
+				// 如参数是数组类型，也需要收集数组项的类型
 				if (param.schema.type === 'array' && param.schema.items?.$ref) {
 					types.add(param.schema.items.$ref.split('/').pop() || '');
 				}
@@ -429,14 +427,14 @@ export default function apiGeneratorPlugin(viteEnv: ViteEnv) {
 
 				// 检查并输出 schemas
 				if (apiDoc.components?.schemas) {
-					logger.info('找到��下数据类型定义:');
+					logger.info('找到以下数据类型定义:');
 					const schemas = apiDoc.components.schemas;
 
 					// 输出所有可用的 schema 名称
-					const schemaNames = Object.keys(schemas);
-					for (const schemaName of schemaNames) {
-						logger.info(`- ${schemaName}`);
-					}
+					// const schemaNames = Object.keys(schemas);
+					// for (const schemaName of schemaNames) {
+					// 	logger.info(`- ${schemaName}`);
+					// }
 
 					let typeContent = '// 自动生成的类型定义\n\n';
 

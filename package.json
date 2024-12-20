@@ -16,8 +16,7 @@
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check --apply .",
-		"api:generate": "tsx scripts/generateApi.ts",
-		"api:generate:watch": "tsx scripts/generateApi.ts --watch"
+		"api:generate": "tsx scripts/generateApi.ts"
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.3.1",
