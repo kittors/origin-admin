@@ -9,6 +9,7 @@ interface SchemaProperty {
 	items?: SchemaProperty;
 	properties?: Record<string, SchemaProperty>;
 	$ref?: string;
+	additionalProperties?: SchemaProperty;
 }
 
 interface Schema {
@@ -76,33 +77,55 @@ function generateTypeDefinition(schema: Schema, name: string): string {
 	let content = `/**\n * ${schemaDescription}\n */\n`;
 	content += `export interface ${name} {\n`;
 
+	// 所有响应类型(R开头)和Vo结尾的类型的属性都应该是必需的
+	const isRequiredType = name.startsWith('R') || name.endsWith('Vo');
+
 	for (const [propName, prop] of Object.entries<SchemaProperty>(schema.properties)) {
-		const required = schema.required?.includes(propName);
+		// 如果是响应类型或Vo类型，或者属性在required数组中，则为必需属性
+		const required = isRequiredType || (schema.required?.includes(propName) ?? false);
 		const description = prop.description
 			? ` // ${cleanHtmlTags(prop.description).replace(/\n/g, '\n// ')}`
 			: '';
 
 		let type: string;
 
-		switch (prop.type) {
-			case 'integer':
-			case 'number':
-				type = 'number';
-				break;
-			case 'string':
-				type = 'string';
-				break;
-			case 'boolean':
-				type = 'boolean';
-				break;
-			case 'array':
-				type = prop.items ? `${generateArrayType(prop.items)}[]` : 'unknown[]';
-				break;
-			case 'object':
-				type = 'Record<string, unknown>';
-				break;
-			default:
-				type = 'unknown';
+		if (prop.$ref) {
+			// 直接处理 $ref
+			type = prop.$ref.split('/').pop() || 'unknown';
+		} else {
+			switch (prop.type) {
+				case 'integer':
+				case 'number':
+					type = 'number';
+					break;
+				case 'string':
+					type = 'string';
+					break;
+				case 'boolean':
+					type = 'boolean';
+					break;
+				case 'array':
+					if (prop.items?.type === 'object' && prop.items.additionalProperties) {
+						const itemType = prop.items.additionalProperties.type || 'unknown';
+						type = `Record<string, ${itemType}>[]`;
+					} else {
+						type = prop.items ? `${generateArrayType(prop.items)}[]` : 'unknown[]';
+					}
+					break;
+				case 'object':
+					if (prop.additionalProperties) {
+						const valueType = prop.additionalProperties.type || 'unknown';
+						type = `Record<string, ${valueType}>`;
+					} else if (prop.$ref) {
+						// 处理对象类型的 $ref
+						type = prop.$ref.split('/').pop() || 'unknown';
+					} else {
+						type = 'Record<string, unknown>';
+					}
+					break;
+				default:
+					type = 'unknown';
+			}
 		}
 
 		content += `\t${propName}${required ? '' : '?'}: ${type};${description}\n`;
@@ -237,7 +260,7 @@ function generateTagNameMap(paths: Record<string, Record<string, PathItem>>): Re
 export const tagNameMap: Record<string, string> = ${JSON.stringify(finalTagNameMap, null, 2)};
 `;
 
-	// 写入文���
+	// 写入文件
 	fs.writeFileSync(resolve(configPath, 'tag-map.ts'), fileContent);
 	logger.success('标签映射文件生成成功！');
 
@@ -324,7 +347,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 		}
 	}
 
-	// 如果有未分类的接口，将它们加�� other.ts
+	// 如果有未分类的接口它们加 other.ts
 	if (otherApis.length > 0) {
 		let content = `import http from '@/api';\n`;
 		content += `import type { ${collectTypesForTag(otherApis)} } from './types/api-types';\n\n`;
@@ -553,7 +576,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 
 	const logContent = `/**
  * API 生成器运行日志
- * 记录时间: ${new Date().toISOString()}
+ * 记录���间: ${new Date().toISOString()}
  */
 
 interface ApiGeneratorLog {
@@ -586,13 +609,13 @@ function collectTypesForTag(operations: PathItem[]): string {
 		const responseSchema = content?.['application/json']?.schema || content?.['*/*']?.schema;
 
 		if (responseSchema?.$ref) {
-			types.add(responseSchema.$ref.split('/').pop() || '');
+			types.add((responseSchema.$ref.split('/').pop() as string) || '');
 		}
 		if (responseSchema?.type === 'array' && responseSchema.items?.$ref) {
-			types.add(responseSchema.items.$ref.split('/').pop() || '');
+			types.add((responseSchema.items.$ref.split('/').pop() as string) || '');
 		}
 
-		// 收集请求体类型
+		// 收集请求类型
 		if (operation.requestBody?.content?.['application/json']?.schema) {
 			const requestSchema = operation.requestBody.content['application/json'].schema;
 			if (requestSchema.$ref) {
@@ -604,11 +627,11 @@ function collectTypesForTag(operations: PathItem[]): string {
 		if (operation.parameters) {
 			for (const param of operation.parameters) {
 				if (param.schema.$ref) {
-					types.add(param.schema.$ref.split('/').pop() || '');
+					types.add((param.schema.$ref.split('/').pop() as string) || '');
 				}
 				// 如参数是数组类型，也需要收集数组项的类型
 				if (param.schema.type === 'array' && param.schema.items?.$ref) {
-					types.add(param.schema.items.$ref.split('/').pop() || '');
+						types.add((param.schema.items.$ref.split('/').pop() as string) || '');
 				}
 			}
 		}
@@ -675,7 +698,7 @@ export default function apiGeneratorPlugin(viteEnv: ViteEnv) {
 						typeContent += generateTypeDefinition(schema, schemaName);
 					}
 
-					// 确保输出目录存在
+					// 确���输出目录存在
 					fs.mkdirSync(typeOutputPath, { recursive: true });
 					fs.writeFileSync(resolve(typeOutputPath, 'api-types.ts'), typeContent);
 					logger.success('类型定义生成成功！');

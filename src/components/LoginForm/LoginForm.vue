@@ -16,7 +16,6 @@
         placeholder="密码：123456"
         show-password
         autocomplete="new-password"
-        class="password-input"
       >
         <template #prefix>
           <el-icon class="el-input__icon">
@@ -24,9 +23,12 @@
           </el-icon>
         </template>
       </el-input>
+    </el-form-item>
+    <el-form-item prop="code">
+      <el-input v-model="loginForm.code" placeholder="验证码" class="code-input"></el-input>
       <!-- 验证码 -->
       <div class="login-code">
-        <img src="" alt="" />
+        <img :src="codeUrl" alt="" />
       </div>
     </el-form-item>
   </el-form>
@@ -50,6 +52,7 @@
 <script setup lang="ts">
 // import { getTimeState } from "@/utils";
 import type { Login } from '@/api/interface';
+import { authCodeGetCodeApi } from '@/api/modules/captcha';
 import { HOME_URL } from '@/config';
 import { initDynamicRouter } from '@/routers/modules/dynamicRouter';
 import { useKeepAliveStore } from '@/stores/modules/keepAlive';
@@ -61,8 +64,6 @@ import { CircleClose, UserFilled } from '@element-plus/icons-vue';
 import { ElNotification } from 'element-plus';
 import type { ElForm } from 'element-plus';
 import md5 from 'md5';
-import { onBeforeUnmount, onMounted, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -74,13 +75,25 @@ const loginFormRef = ref<FormInstance>();
 const loginRules = reactive({
 	username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
 	password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+	code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
 });
 
 const loading = ref(false);
 const loginForm = reactive<Login.ReqLoginForm>({
 	username: '',
 	password: '',
+	code: '',
 });
+
+// 获取验证码图片地址
+const codeUrl = ref('');
+const getCodeUrl = async () => {
+	const { data } = await authCodeGetCodeApi();
+	if (data?.img) {
+		// 将图片地址转换为 base64
+		codeUrl.value = `data:image/png;base64,${data.img}`;
+	}
+};
 
 // login
 const login = (formEl: FormInstance | undefined) => {
@@ -135,6 +148,7 @@ onMounted(() => {
 			login(loginFormRef.value);
 		}
 	};
+	getCodeUrl();
 });
 
 onBeforeUnmount(() => {

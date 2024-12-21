@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-logger.success('login');
+logger.debug('login');
 defineOptions({
 	name: 'LoginIndex',
 });

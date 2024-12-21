@@ -22,8 +22,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			port: viteEnv.VITE_PORT,
 			open: viteEnv.VITE_OPEN,
 			cors: true,
-			// Load proxy configuration from .env.development
-			proxy: createProxy(viteEnv.VITE_PROXY),
+			proxy: {
+				[viteEnv.VITE_APP_BASE_API]: {
+					target: viteEnv.VITE_APP_SERVER_URL,
+					changeOrigin: true,
+					ws: true,
+					rewrite: (path) =>
+						path.replace(new RegExp(`^${viteEnv.VITE_APP_BASE_API}`), ''),
+				},
+			},
 		},
 		// 打包的时候 可以删除 console.log 和 debugger
 		esbuild: {

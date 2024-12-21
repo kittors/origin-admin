@@ -36,8 +36,10 @@ class Logger {
 			debug: 'color: #722ed1',
 		};
 
+
 		// 开发环境使用带样式的输出
 		if (this.env === 'development') {
+
 			switch (level) {
 				case 'success':
 					console.log(`%c${prefix}`, styles[level], message, ...args);
@@ -52,7 +54,7 @@ class Logger {
 					console.info(`%c${prefix}`, styles[level], message, ...args);
 					break;
 				case 'debug':
-					console.debug(`%c${prefix}`, styles[level], message, ...args);
+					console.log(`%c${prefix}`, styles[level], message, ...args);
 					break;
 			}
 			return;
