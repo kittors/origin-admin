@@ -225,7 +225,7 @@ function generateTagNameMap(paths: Record<string, Record<string, PathItem>>): Re
 		}
 	}
 
-	// 生成最终��射
+	// 生成最终��
 	const finalTagNameMap: Record<string, string> = {};
 	for (const [tag, moduleNames] of tagPathMap) {
 		const moduleName = Array.from(moduleNames)[0];
@@ -250,6 +250,35 @@ export const tagNameMap: Record<string, string> = ${JSON.stringify(finalTagNameM
 	logger.success('标签映射文件生成成功！');
 
 	return finalTagNameMap;
+}
+
+// 添加一个函数来解析现有接口的内容和时间戳
+function parseExistingApi(content: string) {
+	const apis = new Map<string, { content: string; date: string }>();
+	const blocks = content.split('export const');
+
+	for (const block of blocks) {
+		const nameMatch = block.match(/(\w+Api)\s*=/);
+		const dateMatch = block.match(/@date\s+([^\n]+)/);
+		if (nameMatch && dateMatch) {
+			apis.set(nameMatch[1], {
+				content: `export const ${block}`,
+				date: dateMatch[1]
+			});
+		}
+	}
+	return apis;
+}
+
+// 添加一个函数来生成接口内容的哈希值（用于比较变化）
+function generateApiHash(operation: PathItem): string {
+	return JSON.stringify({
+		path: operation.path,
+		method: operation.method,
+		parameters: operation.parameters,
+		requestBody: operation.requestBody,
+		responses: operation.responses
+	});
 }
 
 function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
@@ -303,14 +332,14 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 				continue;
 			}
 
-			// 使用路径的第一段作为文���名
+			// 使用路径的第一段作为文件名
 			if (!apisByTag.has(moduleName)) {
 				apisByTag.set(moduleName, []);
 			}
 			apisByTag.get(moduleName)?.push({
 				...operation,
 				path: path || '',
-				method: method || ''
+					method: method || ''
 			});
 		}
 	}
@@ -454,139 +483,35 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 
 	// 为每个 tag 生成单独的文件
 	for (const [tag, operations] of apisByTag) {
-		const moduleFileName = tag;  // 改用不同的变量名
-		fileStats[moduleFileName] = operations.length;
+		const fileName = `${tag}.ts`;
+		fileStats[fileName] = operations.length;
 		totalInterfaces += operations.length;
+
+		// 读取现有文件内容
+		const existingApis = fs.existsSync(fileName)
+			? parseExistingApi(fs.readFileSync(fileName, 'utf-8'))
+			: new Map();
 
 		let fileContent = `import http from '@/api';\n`;
 		fileContent += `import { ResultData } from '@/api/interface';\n`;
 		fileContent += `import type { ${collectTypesForTag(operations)} } from './types/api-types';\n\n`;
 
-		fileContent += `/**\n * @name ${tag}模块\n */\n`;
-
 		for (const operation of operations) {
-			// 分离路径参数和查询参数
-			let pathParams: Array<{ name: string; type: string }> = [];
-			let queryParams: Array<{ name: string; type: string; required: boolean }> = [];
+			const apiName = `${generateApiName(operation.path, operation.operationId)}Api`;
+			const apiHash = generateApiHash(operation);
+			const existingApi = existingApis.get(apiName);
 
-			if (operation.parameters?.length) {
-				for (const param of operation.parameters) {
-					const paramType = getParamType(param.schema);
-					if (param.in === 'path') {
-						pathParams.push({ name: param.name, type: paramType });
-					} else if (param.in === 'query') {
-						queryParams.push({
-							name: param.name,
-							type: paramType,
-							required: param.required || false
-						});
-					}
-				}
+			// 如果接口已存在且内容没变，保留原有内容（包括时间戳）
+			if (existingApi && apiHash === generateApiHash(operation)) {
+				fileContent += existingApi.content;
+				continue;
 			}
 
-			// 生成参数类型和判断是否有参数
-			let paramsType = '';
-			let hasParams = false;
-
-			// 处理 requestBody
-			if (operation.requestBody?.content) {
-				const contentTypes = Object.keys(operation.requestBody.content);
-				for (const contentType of contentTypes) {
-					hasParams = true;
-					const schema = operation.requestBody.content[contentType].schema;
-
-					if (contentType === 'multipart/form-data') {
-						paramsType = 'FormData';
-						break;  // 找到 multipart/form-data 后直接跳出
-					} else if (contentType === 'application/json' && schema.$ref) {
-						paramsType = schema.$ref.split('/').pop() || 'unknown';
-					} else {
-						paramsType = 'Record<string, unknown>';
-					}
-				}
-			}
-			// 处理 URL 参数
-			else if (operation.parameters?.length) {
-				hasParams = true;
-				const params = [
-					...pathParams.map(p => `${p.name}: ${p.type}`),
-					...queryParams.map(p => `${p.name}${p.required ? '' : '?'}: ${p.type}`)
-				];
-				paramsType = `{\n\t\t${params.join(';\n\t\t')}\n\t}`;
-			}
-
-			// 处理路径参数替换
-			const urlPath = operation.path.replace(/\{([^}]+)\}/g, '${params.$1}');
-
-			// 修改响应类型处理
-			let responseType: string;
-			// 检查 responses.200 是否有 content 属性
-			if (!operation.responses?.['200']?.content) {
-				// 如果 200 响应中没有 content 属性，使用 ResultData<string>
-				responseType = 'ResultData<string>';
-			} else {
-				responseType = getResponseType(operation);
-			}
-
-			// 修改请求配置生成
-			const method = operation.method.toLowerCase();
-			let requestConfig = '';
-
-			if (hasParams) {
-				const isMultipart = operation.requestBody?.content?.['multipart/form-data'];
-				switch (method) {
-					case 'get':
-						requestConfig = ', { params }';
-						break;
-					case 'post':
-					case 'put':
-						if (isMultipart) {
-							requestConfig = ', params, { headers: { "Content-Type": "multipart/form-data" } }';
-						} else {
-							requestConfig = ', params';
-						}
-						break;
-					case 'delete':
-						requestConfig = ', { params }';
-						break;
-					default:
-						requestConfig = ', params';
-				}
-			}
-
-			// 添加一个清理注释的辅助函数
-			function cleanComment(text: string | undefined): string {
-				if (!text) return '';
-				return text
-					.replace(/\\n/g, ' ')
-					.replace(/<p>/g, ' ')
-					.replace(/<\/p>/g, '')
-					.replace(/\s+/g, ' ')
-					.trim();
-			}
-
-			// 添加一个获取当前时间的辅助函数
-			function getCurrentTime(): string {
-				return new Date().toISOString();
-			}
-
-			// 在生成接口时使用这个函数
-			fileContent += `
-			/**
-			 * ${cleanComment(operation.summary) || ''}
-			 * @description ${cleanComment(operation.description) || ''}
-			 * @date ${getCurrentTime()}
-			 */
-			export const ${generateApiName(operation.path, operation.operationId)} = (${hasParams ? `params: ${paramsType}` : ''}) => {
-				return http.${method}<${responseType}>(
-					\`${urlPath}\`${requestConfig}
-				);
-			};\n`;
+			// 生成新接口或更新已修改的接口
+			fileContent += generateApiContent(operation, new Date().toISOString());
 		}
 
-		// 生成文件
-		const fileName = tagNameMap[tag] || tag.toLowerCase().replace(/\s+/g, '-');
-		fs.writeFileSync(resolve(baseOutputPath, `${fileName}.ts`), fileContent);
+		fs.writeFileSync(fileName, fileContent);
 		generatedCount++;
 	}
 
@@ -598,7 +523,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 
 	// 所有文件生成完成后的消息
 	if (generatedCount > 0) {
-		logger.success(`成功生成 ${generatedCount} 个模块，共 ${totalInterfaces} 个接口！`);
+		logger.success(`成功生成 ${Object.keys(fileStats).length} 个模块，共 ${totalInterfaces} 个接口！`);
 	}
 
 	// 生成日志文件
@@ -629,6 +554,127 @@ export const apiGeneratorLog: ApiGeneratorLog = {
 };`;
 
 	fs.writeFileSync(resolve(logPath, 'log.ts'), logContent);
+}
+
+// 将接口生成逻辑抽取为单独的函数
+function generateApiContent(operation: PathItem, date: string): string {
+	// 分离路径参数和查询参数
+	let pathParams: Array<{ name: string; type: string }> = [];
+	let queryParams: Array<{ name: string; type: string; required: boolean }> = [];
+
+	if (operation.parameters?.length) {
+		for (const param of operation.parameters) {
+			const paramType = getParamType(param.schema);
+			if (param.in === 'path') {
+				pathParams.push({ name: param.name, type: paramType });
+			} else if (param.in === 'query') {
+				queryParams.push({
+					name: param.name,
+					type: paramType,
+					required: param.required || false
+				});
+			}
+		}
+	}
+
+	// 生成参数类型和判断是否有参数
+	let paramsType = '';
+	let hasParams = false;
+
+	// 处理 requestBody
+	if (operation.requestBody?.content) {
+		const contentTypes = Object.keys(operation.requestBody.content);
+		for (const contentType of contentTypes) {
+			hasParams = true;
+			const schema = operation.requestBody.content[contentType].schema;
+
+			if (contentType === 'multipart/form-data') {
+				paramsType = 'FormData';
+				break;  // 找到 multipart/form-data 后直接跳出
+			} else if (contentType === 'application/json' && schema.$ref) {
+				paramsType = schema.$ref.split('/').pop() || 'unknown';
+			} else {
+				paramsType = 'Record<string, unknown>';
+			}
+		}
+	}
+	// 处理 URL 参数
+	else if (operation.parameters?.length) {
+		hasParams = true;
+		const params = [
+			...pathParams.map(p => `${p.name}: ${p.type}`),
+			...queryParams.map(p => `${p.name}${p.required ? '' : '?'}: ${p.type}`)
+		];
+		paramsType = `{\n\t\t${params.join(';\n\t\t')}\n\t}`;
+	}
+
+	// 处理路径参数替换
+	const urlPath = operation.path.replace(/\{([^}]+)\}/g, '${params.$1}');
+
+	// 修改响应类型处理
+	let responseType: string;
+	// 检查 responses.200 是否有 content 属性
+	if (!operation.responses?.['200']?.content) {
+		// 如果 200 响应中没有 content 属性，使用 ResultData<string>
+		responseType = 'ResultData<string>';
+	} else {
+		responseType = getResponseType(operation);
+	}
+
+	// 修改请求配置生成
+	const method = operation.method.toLowerCase();
+	let requestConfig = '';
+
+	if (hasParams) {
+		const isMultipart = operation.requestBody?.content?.['multipart/form-data'];
+		switch (method) {
+			case 'get':
+				requestConfig = ', { params }';
+				break;
+			case 'post':
+			case 'put':
+				if (isMultipart) {
+					requestConfig = ', params, { headers: { "Content-Type": "multipart/form-data" } }';
+				} else {
+					requestConfig = ', params';
+				}
+				break;
+			case 'delete':
+				requestConfig = ', { params }';
+				break;
+			default:
+				requestConfig = ', params';
+		}
+	}
+
+	// 添加一个清理注释的辅助函数
+	function cleanComment(text: string | undefined): string {
+		if (!text) return '';
+		return text
+			.replace(/\\n/g, ' ')
+			.replace(/<p>/g, ' ')
+			.replace(/<\/p>/g, '')
+			.replace(/\s+/g, ' ')
+			.trim();
+	}
+
+	// 添加一个获取当前时间的辅助函数
+	function getCurrentTime(): string {
+		return new Date().toISOString();
+	}
+
+	// 在生成接口时使用这个函数
+	return `
+	/**
+	 * ${cleanComment(operation.summary) || ''}
+	 * @description ${cleanComment(operation.description) || ''}
+	 * @date ${date}
+	 */
+	export const ${generateApiName(operation.path, operation.operationId)} = (${hasParams ? `params: ${paramsType}` : ''}) => {
+		return http.${method}<${responseType}>(
+			\`${urlPath}\`${requestConfig}
+		);
+	};\n`;
 }
 
 function collectTypesForTag(operations: PathItem[]): string {

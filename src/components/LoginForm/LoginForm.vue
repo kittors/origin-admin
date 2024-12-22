@@ -89,7 +89,7 @@ const loginForm = reactive<Login.ReqLoginForm>({
 const codeUrl = ref('');
 const getCodeUrl = async () => {
 	const { data } = await authCodeGetCodeApi();
-	if (data?.img) {
+	if (data.img) {
 		// 将图片地址转换为 base64
 		codeUrl.value = `data:image/png;base64,${data.img}`;
 	}
