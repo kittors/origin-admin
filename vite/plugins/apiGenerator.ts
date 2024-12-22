@@ -225,7 +225,7 @@ function generateTagNameMap(paths: Record<string, Record<string, PathItem>>): Re
 		}
 	}
 
-	// 生成最终射
+	// 生成最终��射
 	const finalTagNameMap: Record<string, string> = {};
 	for (const [tag, moduleNames] of tagPathMap) {
 		const moduleName = Array.from(moduleNames)[0];
@@ -303,7 +303,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 				continue;
 			}
 
-			// 使用路径的第一段作为文件名
+			// 使用路径的第一段作为文���名
 			if (!apisByTag.has(moduleName)) {
 				apisByTag.set(moduleName, []);
 			}
@@ -452,46 +452,142 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 	const fileStats: Record<string, number> = {};
 	let totalInterfaces = 0;
 
-	// 添加一个函数来获取文件的现有接口
-	const getExistingApis = (filePath: string): Map<string, string> => {
-		const apis = new Map<string, string>();
-		if (!fs.existsSync(filePath)) return apis;
-
-		const content = fs.readFileSync(filePath, 'utf-8');
-		const apiBlocks = content.split('export const');
-
-		for (const block of apiBlocks) {
-			const match = block.match(/(\w+Api)\s*=/);
-			if (match) {
-				apis.set(match[1], `export const ${block}`);
-			}
-		}
-		return apis;
-	};
-
-	// 修改文件生成逻辑
+	// 为每个 tag 生成单独的文件
 	for (const [tag, operations] of apisByTag) {
-		const fileName = `${tag}.ts`;
-		const filePath = resolve(baseOutputPath, fileName);
-		const existingApis = getExistingApis(filePath);
+		const moduleFileName = tag;  // 改用不同的变量名
+		fileStats[moduleFileName] = operations.length;
+		totalInterfaces += operations.length;
+
 		let fileContent = `import http from '@/api';\n`;
 		fileContent += `import { ResultData } from '@/api/interface';\n`;
 		fileContent += `import type { ${collectTypesForTag(operations)} } from './types/api-types';\n\n`;
 
-		for (const operation of operations) {
-			const apiName = generateApiName(operation.path, operation.operationId);
+		fileContent += `/**\n * @name ${tag}模块\n */\n`;
 
-			// 如果接口已存在且内容没变，保留原有内容
-			if (existingApis.has(`${apiName}Api`)) {
-				fileContent += existingApis.get(`${apiName}Api`);
-				continue;
+		for (const operation of operations) {
+			// 分离路径参数和查询参数
+			let pathParams: Array<{ name: string; type: string }> = [];
+			let queryParams: Array<{ name: string; type: string; required: boolean }> = [];
+
+			if (operation.parameters?.length) {
+				for (const param of operation.parameters) {
+					const paramType = getParamType(param.schema);
+					if (param.in === 'path') {
+						pathParams.push({ name: param.name, type: paramType });
+					} else if (param.in === 'query') {
+						queryParams.push({
+							name: param.name,
+							type: paramType,
+							required: param.required || false
+						});
+					}
+				}
 			}
 
-			// 生成新接口
-			// ... 生成新接口的代码 ...
+			// 生成参数类型和判断是否有参数
+			let paramsType = '';
+			let hasParams = false;
+
+			// 处理 requestBody
+			if (operation.requestBody?.content) {
+				const contentTypes = Object.keys(operation.requestBody.content);
+				for (const contentType of contentTypes) {
+					hasParams = true;
+					const schema = operation.requestBody.content[contentType].schema;
+
+					if (contentType === 'multipart/form-data') {
+						paramsType = 'FormData';
+						break;  // 找到 multipart/form-data 后直接跳出
+					} else if (contentType === 'application/json' && schema.$ref) {
+						paramsType = schema.$ref.split('/').pop() || 'unknown';
+					} else {
+						paramsType = 'Record<string, unknown>';
+					}
+				}
+			}
+			// 处理 URL 参数
+			else if (operation.parameters?.length) {
+				hasParams = true;
+				const params = [
+					...pathParams.map(p => `${p.name}: ${p.type}`),
+					...queryParams.map(p => `${p.name}${p.required ? '' : '?'}: ${p.type}`)
+				];
+				paramsType = `{\n\t\t${params.join(';\n\t\t')}\n\t}`;
+			}
+
+			// 处理路径参数替换
+			const urlPath = operation.path.replace(/\{([^}]+)\}/g, '${params.$1}');
+
+			// 修改响应类型处理
+			let responseType: string;
+			// 检查 responses.200 是否有 content 属性
+			if (!operation.responses?.['200']?.content) {
+				// 如果 200 响应中没有 content 属性，使用 ResultData<string>
+				responseType = 'ResultData<string>';
+			} else {
+				responseType = getResponseType(operation);
+			}
+
+			// 修改请求配置生成
+			const method = operation.method.toLowerCase();
+			let requestConfig = '';
+
+			if (hasParams) {
+				const isMultipart = operation.requestBody?.content?.['multipart/form-data'];
+				switch (method) {
+					case 'get':
+						requestConfig = ', { params }';
+						break;
+					case 'post':
+					case 'put':
+						if (isMultipart) {
+							requestConfig = ', params, { headers: { "Content-Type": "multipart/form-data" } }';
+						} else {
+							requestConfig = ', params';
+						}
+						break;
+					case 'delete':
+						requestConfig = ', { params }';
+						break;
+					default:
+						requestConfig = ', params';
+				}
+			}
+
+			// 添加一个清理注释的辅助函数
+			function cleanComment(text: string | undefined): string {
+				if (!text) return '';
+				return text
+					.replace(/\\n/g, ' ')
+					.replace(/<p>/g, ' ')
+					.replace(/<\/p>/g, '')
+					.replace(/\s+/g, ' ')
+					.trim();
+			}
+
+			// 添加一个获取当前时间的辅助函数
+			function getCurrentTime(): string {
+				return new Date().toISOString();
+			}
+
+			// 在生成接口时使用这个函数
+			fileContent += `
+			/**
+			 * ${cleanComment(operation.summary) || ''}
+			 * @description ${cleanComment(operation.description) || ''}
+			 * @date ${getCurrentTime()}
+			 */
+			export const ${generateApiName(operation.path, operation.operationId)} = (${hasParams ? `params: ${paramsType}` : ''}) => {
+				return http.${method}<${responseType}>(
+					\`${urlPath}\`${requestConfig}
+				);
+			};\n`;
 		}
 
-		fs.writeFileSync(filePath, fileContent);
+		// 生成文件
+		const fileName = tagNameMap[tag] || tag.toLowerCase().replace(/\s+/g, '-');
+		fs.writeFileSync(resolve(baseOutputPath, `${fileName}.ts`), fileContent);
+		generatedCount++;
 	}
 
 	// 打印统计信息
@@ -618,7 +714,7 @@ export default function apiGeneratorPlugin(viteEnv: ViteEnv) {
 
 				// 检查并输出 schemas
 				if (apiDoc.components?.schemas) {
-					// logger.info('找到以下数据类型定���:');
+					// logger.info('找到以下数据类型定义:');
 					const schemas = apiDoc.components.schemas;
 					// 输出所有可用的 schema 名称
 					// const schemaNames = Object.keys(schemas);
