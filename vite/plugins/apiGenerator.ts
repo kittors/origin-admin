@@ -70,22 +70,32 @@ function cleanHtmlTags(text: string): string {
 }
 
 function generateTypeDefinition(schema: Schema, name: string): string {
+
+  // 对接口描述的处理  去除html标签 并替换换行符为 //
 	const schemaDescription = schema.description
 		? cleanHtmlTags(schema.description).replace(/\n/g, '\n// ')
 		: '';
 
+  // 生成接口描述
 	let content = `/**\n * ${schemaDescription}\n */\n`;
 	content += `export interface ${name} {\n`;
 
-	// 所有响应类型(R开头)和Vo结尾的类型的属性都应该是必需的
-	const isRequiredType = name.startsWith('R') || name.endsWith('Vo');
-
 	for (const [propName, prop] of Object.entries<SchemaProperty>(schema.properties)) {
-		// 如果是响应类型或Vo类型，或者属性在required数组中，则为必需属性
-		const required = isRequiredType || (schema.required?.includes(propName) ?? false);
-		const description = prop.description
-			? ` // ${cleanHtmlTags(prop.description).replace(/\n/g, '\n// ')}`
-			: '';
+		// 如果schema.required不存在，则所有属性都是必需的
+		// 如果schema.required存在，则只有在required数组中的属性才是必需的
+		const required = !schema.required || schema.required.includes(propName);
+		let description = '';
+		if (prop.description) {
+			const cleanDesc = cleanHtmlTags(prop.description);
+			// 检查原始描述是否包含<p>标签
+			if (prop.description.includes('<p>')) {
+				// 多行注释处理
+				description = `\n\t/**\n\t * ${cleanDesc.split('\n').join('\n\t * ')}\n\t */`;
+			} else {
+				// 单行注释处理
+				description = ` // ${cleanDesc.replace(/\n/g, ' ')}`;
+			}
+		}
 
 		let type: string;
 
@@ -128,7 +138,7 @@ function generateTypeDefinition(schema: Schema, name: string): string {
 			}
 		}
 
-		content += `\t${propName}${required ? '' : '?'}: ${type};${description}\n`;
+		content += `${description}\n\t${propName}${required ? '' : '?'}: ${type};\n`;
 	}
 
 	content += '}\n\n';
@@ -576,7 +586,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 
 	const logContent = `/**
  * API 生成器运行日志
- * 记录���间: ${new Date().toISOString()}
+ * 记录间: ${new Date().toISOString()}
  */
 
 interface ApiGeneratorLog {
@@ -683,9 +693,8 @@ export default function apiGeneratorPlugin(viteEnv: ViteEnv) {
 
 				// 检查并输出 schemas
 				if (apiDoc.components?.schemas) {
-					logger.info('找到以下数据类型定义:');
+					// logger.info('找到以下数据类型定义:');
 					const schemas = apiDoc.components.schemas;
-
 					// 输出所有可用的 schema 名称
 					// const schemaNames = Object.keys(schemas);
 					// for (const schemaName of schemaNames) {
@@ -698,7 +707,7 @@ export default function apiGeneratorPlugin(viteEnv: ViteEnv) {
 						typeContent += generateTypeDefinition(schema, schemaName);
 					}
 
-					// 确���输出目录存在
+					// 确保输出目录存在
 					fs.mkdirSync(typeOutputPath, { recursive: true });
 					fs.writeFileSync(resolve(typeOutputPath, 'api-types.ts'), typeContent);
 					logger.success('类型定义生成成功！');
