@@ -360,6 +360,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 	// 如果有未分类的接口它们加 other.ts
 	if (otherApis.length > 0) {
 		let content = `import http from '@/api';\n`;
+    // content += `import { ResultData } from '@/api/interface';\n`;
 		content += `import type { ${collectTypesForTag(otherApis)} } from './types/api-types';\n\n`;
 		content += `/**\n * @name 其他未分类接口\n */\n`;
 
@@ -468,6 +469,7 @@ function generateApiFiles(paths: Record<string, Record<string, PathItem>>) {
 	// 为每个 tag 生成单独的文件
 	for (const [tag, operations] of apisByTag) {
 		let content = `import http from '@/api';\n`;
+    // content += `import { ResultData } from '@/api/interface';\n`;
 		content += `import type { ${collectTypesForTag(operations)} } from './types/api-types';\n\n`;
 
 		content += `/**\n * @name ${tag}模块\n */\n`;
