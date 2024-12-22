@@ -52,7 +52,7 @@
 <script setup lang="ts">
 // import { getTimeState } from "@/utils";
 import type { Login } from '@/api/interface';
-import { authCodeGetCodeApi } from '@/api/modules/captcha';
+import { authCodeGetCodeApi } from '@/api/modules/auth';
 import { HOME_URL } from '@/config';
 import { initDynamicRouter } from '@/routers/modules/dynamicRouter';
 import { useKeepAliveStore } from '@/stores/modules/keepAlive';
