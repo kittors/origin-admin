@@ -6,7 +6,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 导出操作日志记录列表
 	 * @description 导出操作日志记录列表
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorOperlogExportExport_12Api = (params: {
 		operLog: SysOperLogBo
@@ -19,7 +19,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 强退当前在线设备
 	 * @description 强退当前在线设备
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorOnlineRemoveApi = (params: {
 		tokenId: string
@@ -32,7 +32,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 强退用户
 	 * @description 强退用户
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorOnlineForceLogoutApi = (params: {
 		tokenId: string
@@ -45,7 +45,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 导出系统访问记录列表
 	 * @description 导出系统访问记录列表
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorLogininforExportExport_13Api = (params: {
 		logininfor: SysLogininforBo
@@ -58,7 +58,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 获取操作日志记录列表
 	 * @description 获取操作日志记录列表
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorOperlogListList_18Api = (params: {
 		operLog: SysOperLogBo;
@@ -72,7 +72,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 获取当前用户登录在线设备
 	 * @description 获取当前用户登录在线设备
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorOnlineGetInfo_20Api = () => {
 		return http.get<TableDataInfoSysUserOnline>(
@@ -83,7 +83,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 获取在线用户监控列表
 	 * @description 获取在线用户监控列表
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorOnlineListList_19Api = (params: {
 		ipaddr: string;
@@ -97,7 +97,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 
 	 * @description 
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorLogininforUnlockUnlockApi = (params: {
 		userName: string
@@ -110,7 +110,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 获取系统访问记录列表
 	 * @description 获取系统访问记录列表
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorLogininforListList_20Api = (params: {
 		logininfor: SysLogininforBo;
@@ -124,7 +124,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 获取缓存监控列表
 	 * @description 获取缓存监控列表
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.351Z
 	 */
 	export const monitorCacheGetInfo_21Api = () => {
 		return http.get<RCacheListInfoVo>(
@@ -135,7 +135,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 批量删除操作日志记录
 	 * @description 批量删除操作日志记录
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.352Z
 	 */
 	export const monitorOperlogRemove_23Api = (params: {
 		operIds: number[]
@@ -148,7 +148,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 清理操作日志记录
 	 * @description 清理操作日志记录
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.352Z
 	 */
 	export const monitorOperlogCleanCleanApi = () => {
 		return http.delete<RVoid>(
@@ -159,7 +159,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 批量删除登录日志
 	 * @description 批量删除登录日志
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.352Z
 	 */
 	export const monitorLogininforRemove_24Api = (params: {
 		infoIds: number[]
@@ -172,7 +172,7 @@ import type { SysOperLogBo, RVoid, SysLogininforBo, TableDataInfoSysOperLogVo, P
 	/**
 	 * 清理系统访问记录
 	 * @description 清理系统访问记录
-	 * @date 2024-12-22T12:48:34.486Z
+	 * @date 2024-12-22T13:24:59.352Z
 	 */
 	export const monitorLogininforCleanClean_1Api = () => {
 		return http.delete<RVoid>(

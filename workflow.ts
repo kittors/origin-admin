@@ -6,7 +6,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 修改任务办理人
 	 * @description 修改任务办理人
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskUpdateAssigneeUpdateAssigneeApi = (params: {
 		taskIds: string[];
@@ -20,7 +20,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 激活或者挂起流程定义
 	 * @description 激活或者挂起流程定义
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowProcessDefinitionUpdateDefinitionStateUpdateDefinitionStateApi = (params: {
 		processDefinitionId: string
@@ -33,7 +33,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 迁移流程定义
 	 * @description 迁移流程定义
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowProcessDefinitionMigrationDefinitionMigrationDefinitionApi = (params: {
 		currentProcessDefinitionId: string;
@@ -47,7 +47,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 流程定义转换为模型
 	 * @description 流程定义转换为模型
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowProcessDefinitionConvertToModelConvertToModelApi = (params: {
 		processDefinitionId: string
@@ -60,7 +60,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 修改模型信息
 	 * @description 修改模型信息
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowModelUpdateUpdateApi = (params: ModelBo) => {
 		return http.put<RVoid>(
@@ -71,7 +71,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 编辑XMl模型
 	 * @description 编辑XMl模型
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowModelEditModelXmlEditModelApi = (params: ModelBo) => {
 		return http.put<RVoid>(
@@ -82,7 +82,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 修改请假
 	 * @description 修改请假
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowLeaveEditApi = (params: TestLeaveBo) => {
 		return http.put<RTestLeaveVo>(
@@ -93,7 +93,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 新增请假
 	 * @description 新增请假
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowLeaveAddApi = (params: TestLeaveBo) => {
 		return http.post<RTestLeaveVo>(
@@ -104,7 +104,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 修改表单管理
 	 * @description 修改表单管理
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowFormManageEdit_1Api = (params: WfFormManageBo) => {
 		return http.put<RVoid>(
@@ -115,7 +115,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 新增表单管理
 	 * @description 新增表单管理
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowFormManageAdd_1Api = (params: WfFormManageBo) => {
 		return http.post<RVoid>(
@@ -126,7 +126,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 修改流程分类
 	 * @description 修改流程分类
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowCategoryEdit_2Api = (params: WfCategoryBo) => {
 		return http.put<RVoid>(
@@ -137,7 +137,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 新增流程分类
 	 * @description 新增流程分类
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowCategoryAdd_2Api = (params: WfCategoryBo) => {
 		return http.post<RVoid>(
@@ -148,7 +148,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 转办任务
 	 * @description 转办任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskTransferTaskTransferTaskApi = (params: TransmitBo) => {
 		return http.post<RVoid>(
@@ -159,7 +159,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 终止任务
 	 * @description 终止任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskTerminationTaskTerminationTaskApi = (params: TerminationBo) => {
 		return http.post<RVoid>(
@@ -170,7 +170,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 启动任务
 	 * @description 启动任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskStartWorkFlowStartWorkFlowApi = (params: StartProcessBo) => {
 		return http.post<RMapStringObject>(
@@ -181,7 +181,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 归还（拾取的）任务
 	 * @description 归还（拾取的）任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskReturnTaskReturnTaskApi = (params: {
 		taskId: string
@@ -194,7 +194,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 会签任务减签
 	 * @description 会签任务减签
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskDeleteMultiInstanceExecutionDeleteMultiInstanceExecutionApi = (params: DeleteMultiBo) => {
 		return http.post<RVoid>(
@@ -205,7 +205,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 委派任务
 	 * @description 委派任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskDelegateTaskDelegateTaskApi = (params: DelegateBo) => {
 		return http.post<RVoid>(
@@ -216,7 +216,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 办理任务
 	 * @description 办理任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskCompleteTaskCompleteTaskApi = (params: CompleteTaskBo) => {
 		return http.post<RVoid>(
@@ -227,7 +227,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 签收（拾取）任务
 	 * @description 签收（拾取）任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskClaimClaimTaskApi = (params: {
 		taskId: string
@@ -240,7 +240,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 驳回审批
 	 * @description 驳回审批
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskBackProcessBackProcessApi = (params: BackProcessBo) => {
 		return http.post<RString>(
@@ -251,7 +251,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 会签任务加签
 	 * @description 会签任务加签
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskAddMultiInstanceExecutionAddMultiInstanceExecutionApi = (params: AddMultiBo) => {
 		return http.post<RVoid>(
@@ -262,7 +262,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 任务催办(给当前任务办理人发送站内信，邮件，短信等)
 	 * @description 任务催办(给当前任务办理人发送站内信，邮件，短信等)
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowProcessInstanceTaskUrgingTaskUrgingApi = (params: TaskUrgingBo) => {
 		return http.post<RVoid>(
@@ -273,7 +273,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 作废流程实例，不会删除历史记录(删除运行中的实例)
 	 * @description 作废流程实例，不会删除历史记录(删除运行中的实例)
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowProcessInstanceDeleteRunInstanceDeleteRunInstanceApi = (params: ProcessInvalidBo) => {
 		return http.post<RVoid>(
@@ -284,7 +284,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 撤销流程申请
 	 * @description 撤销流程申请
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowProcessInstanceCancelProcessApplyCancelProcessApplyApi = (params: {
 		businessKey: string
@@ -297,7 +297,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 通过zip或xml部署流程定义
 	 * @description 通过zip或xml部署流程定义
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowProcessDefinitionDeployByFileDeployByFileApi = (params: Record<string, unknown>) => {
 		return http.post<ResultData<string>>(
@@ -308,7 +308,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 新增模型
 	 * @description 新增模型
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowModelSaveSaveNewModelApi = (params: ModelBo) => {
 		return http.post<RVoid>(
@@ -319,7 +319,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 模型部署
 	 * @description 模型部署
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowModelModelDeployDeployApi = (params: {
 		id: string
@@ -332,7 +332,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 复制模型
 	 * @description 复制模型
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowModelCopyModelCopyModelApi = (params: ModelBo) => {
 		return http.post<RVoid>(
@@ -343,7 +343,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 导出请假列表
 	 * @description 导出请假列表
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowLeaveExportExportApi = (params: {
 		bo: TestLeaveBo
@@ -356,7 +356,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 导出表单管理列表
 	 * @description 导出表单管理列表
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowFormManageExportExport_1Api = (params: {
 		bo: WfFormManageBo
@@ -369,7 +369,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 新增流程定义配置
 	 * @description 新增流程定义配置
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowDefinitionConfigSaveOrUpdateSaveOrUpdateApi = (params: WfDefinitionConfigBo) => {
 		return http.post<RVoid>(
@@ -380,7 +380,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 导出流程分类列表
 	 * @description 导出流程分类列表
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowCategoryExportExport_2Api = (params: {
 		bo: WfCategoryBo
@@ -393,7 +393,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询工作流任务用户选择加签人员
 	 * @description 查询工作流任务用户选择加签人员
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskGetTaskUserIdsByAddMultiInstanceGetTaskUserIdsByAddMultiInstanceApi = (params: {
 		taskId: string
@@ -406,7 +406,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 获取可驳回得任务节点
 	 * @description 获取可驳回得任务节点
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskGetTaskNodeListGetNodeListApi = (params: {
 		processInstanceId: string
@@ -419,7 +419,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 获取当前任务
 	 * @description 获取当前任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskGetTaskByIdGetTaskByIdApi = (params: {
 		taskId: string
@@ -432,7 +432,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询当前用户的待办任务
 	 * @description 查询当前用户的待办任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskGetPageByTaskWaitGetPageByTaskWaitApi = (params: {
 		taskBo: TaskBo;
@@ -446,7 +446,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询当前用户的已办任务
 	 * @description 查询当前用户的已办任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskGetPageByTaskFinishGetPageByTaskFinishApi = (params: {
 		taskBo: TaskBo;
@@ -460,7 +460,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询当前用户的抄送
 	 * @description 查询当前用户的抄送
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.343Z
 	 */
 	export const workflowTaskGetPageByTaskCopyGetPageByTaskCopyApi = (params: {
 		taskBo: TaskBo;
@@ -474,7 +474,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询当前租户所有待办任务
 	 * @description 查询当前租户所有待办任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowTaskGetPageByAllTaskWaitGetPageByAllTaskWaitApi = (params: {
 		taskBo: TaskBo;
@@ -488,7 +488,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询当前租户所有已办任务
 	 * @description 查询当前租户所有已办任务
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowTaskGetPageByAllTaskFinishGetPageByAllTaskFinishApi = (params: {
 		taskBo: TaskBo;
@@ -502,7 +502,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询工作流选择减签人员
 	 * @description 查询工作流选择减签人员
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowTaskGetListByDeleteMultiInstanceGetListByDeleteMultiInstanceApi = (params: {
 		taskId: string
@@ -515,7 +515,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询流程变量
 	 * @description 查询流程变量
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowTaskGetInstanceVariableGetProcessInstVariableApi = (params: {
 		taskId: string
@@ -528,7 +528,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 分页查询正在运行的流程实例
 	 * @description 分页查询正在运行的流程实例
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessInstanceGetPageByRunningGetPageByRunningApi = (params: {
 		bo: ProcessInstanceBo;
@@ -542,7 +542,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 分页查询已结束的流程实例
 	 * @description 分页查询已结束的流程实例
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessInstanceGetPageByFinishGetPageByFinishApi = (params: {
 		bo: ProcessInstanceBo;
@@ -556,7 +556,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 分页查询当前登录人单据
 	 * @description 分页查询当前登录人单据
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessInstanceGetPageByCurrentGetPageByCurrentApi = (params: {
 		bo: ProcessInstanceBo;
@@ -570,7 +570,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 获取审批记录
 	 * @description 获取审批记录
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessInstanceGetHistoryRecordGetHistoryRecordApi = (params: {
 		businessKey: string
@@ -583,7 +583,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 通过业务id获取历史流程图运行中，历史等节点
 	 * @description 通过业务id获取历史流程图运行中，历史等节点
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessInstanceGetHistoryListGetHistoryListApi = (params: {
 		businessKey: string
@@ -596,7 +596,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 通过业务id获取历史流程图
 	 * @description 通过业务id获取历史流程图
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessInstanceGetHistoryImageGetHistoryImageApi = (params: {
 		businessKey: string
@@ -609,7 +609,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 分页查询
 	 * @description 分页查询
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessDefinitionListPageApi = (params: {
 		bo: ProcessDefinitionBo;
@@ -623,7 +623,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询历史流程定义列表
 	 * @description 查询历史流程定义列表
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessDefinitionGetListByKeyGetListByKeyApi = (params: {
 		key: string
@@ -636,7 +636,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查看流程定义xml文件
 	 * @description 查看流程定义xml文件
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessDefinitionDefinitionXmlDefinitionXmlApi = (params: {
 		processDefinitionId: string
@@ -649,7 +649,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查看流程定义图片
 	 * @description 查看流程定义图片
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessDefinitionDefinitionImageDefinitionImageApi = (params: {
 		processDefinitionId: string
@@ -662,7 +662,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 分页查询模型
 	 * @description 分页查询模型
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowModelListPage_1Api = (params: {
 		modelBo: ModelBo;
@@ -676,7 +676,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询模型
 	 * @description 查询模型
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowModelGetInfoGetInfoApi = (params: {
 		id: string
@@ -689,7 +689,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 导出模型zip压缩包
 	 * @description 导出模型zip压缩包
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowModelExportZipExportZipApi = (params: {
 		modelIds: string[]
@@ -702,7 +702,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 获取请假详细信息
 	 * @description 获取请假详细信息
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowLeaveGetInfo_1Api = (params: {
 		id: number
@@ -715,7 +715,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询请假列表
 	 * @description 查询请假列表
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowLeaveListListApi = (params: {
 		bo: TestLeaveBo;
@@ -729,7 +729,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 获取表单管理详细信息
 	 * @description 获取表单管理详细信息
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowFormManageGetInfo_2Api = (params: {
 		id: number
@@ -742,7 +742,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询表单管理列表
 	 * @description 查询表单管理列表
-	 * @date 2024-12-22T12:48:34.483Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowFormManageListList_1Api = (params: {
 		bo: WfFormManageBo;
@@ -756,7 +756,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询表单管理列表
 	 * @description 查询表单管理列表
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowFormManageListSelectListSelectListApi = () => {
 		return http.get<RListWfFormManageVo>(
@@ -767,7 +767,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询流程定义配置排除当前查询的流程定义
 	 * @description 查询流程定义配置排除当前查询的流程定义
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowDefinitionConfigGetByTableNameNotDefIdGetByTableNameNotDefIdApi = (params: {
 		tableName: string;
@@ -781,7 +781,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 获取流程定义配置详细信息
 	 * @description 获取流程定义配置详细信息
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowDefinitionConfigGetByDefIdGetByDefIdApi = (params: {
 		definitionId: string
@@ -794,7 +794,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 获取流程分类详细信息
 	 * @description 获取流程分类详细信息
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowCategoryGetInfo_3Api = (params: {
 		id: number
@@ -807,7 +807,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 查询流程分类列表
 	 * @description 查询流程分类列表
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowCategoryListList_2Api = (params: {
 		bo: WfCategoryBo
@@ -820,7 +820,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 运行中的实例 删除程实例，删除历史记录，删除业务与流程关联信息
 	 * @description 运行中的实例 删除程实例，删除历史记录，删除业务与流程关联信息
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessInstanceDeleteRunAndHisInstanceDeleteRunAndHisInstanceApi = (params: {
 		businessKeys: string[]
@@ -833,7 +833,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 已完成的实例 删除程实例，删除历史记录，删除业务与流程关联信息
 	 * @description 已完成的实例 删除程实例，删除历史记录，删除业务与流程关联信息
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessInstanceDeleteFinishAndHisInstanceDeleteFinishAndHisInstanceApi = (params: {
 		businessKeys: string[]
@@ -846,7 +846,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 删除流程定义
 	 * @description 删除流程定义
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowProcessDefinitionDeleteDeploymentApi = (params: {
 		deploymentIds: string[];
@@ -860,7 +860,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 删除流程模型
 	 * @description 删除流程模型
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowModelDeleteApi = (params: {
 		ids: string[]
@@ -873,7 +873,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 删除请假
 	 * @description 删除请假
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowLeaveRemove_4Api = (params: {
 		ids: number[]
@@ -886,7 +886,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 删除表单管理
 	 * @description 删除表单管理
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowFormManageRemove_5Api = (params: {
 		ids: number[]
@@ -899,7 +899,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 删除流程定义配置
 	 * @description 删除流程定义配置
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowDefinitionConfigRemove_6Api = (params: {
 		ids: number[]
@@ -912,7 +912,7 @@ import type { RVoid, ModelBo, RTestLeaveVo, TestLeaveBo, WfFormManageBo, WfCateg
 	/**
 	 * 删除流程分类
 	 * @description 删除流程分类
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const workflowCategoryRemove_7Api = (params: {
 		ids: number[]

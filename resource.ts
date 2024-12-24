@@ -6,7 +6,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 修改对象存储配置
 	 * @description 修改对象存储配置
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssConfigEdit_15Api = (params: SysOssConfigBo) => {
 		return http.put<RVoid>(
@@ -17,7 +17,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 新增对象存储配置
 	 * @description 新增对象存储配置
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssConfigAdd_15Api = (params: SysOssConfigBo) => {
 		return http.post<RVoid>(
@@ -28,7 +28,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 状态修改
 	 * @description 状态修改
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssConfigChangeStatusChangeStatus_5Api = (params: SysOssConfigBo) => {
 		return http.put<RVoid>(
@@ -39,7 +39,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 上传OSS对象存储
 	 * @description 上传OSS对象存储
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssUploadUpload_1Api = (params: FormData) => {
 		return http.post<RSysOssUploadVo>(
@@ -50,7 +50,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 建立 SSE 连接
 	 * @description 建立 SSE 连接
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceSseConnectApi = () => {
 		return http.get<unknown>(
@@ -61,7 +61,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 向特定用户发送消息
 	 * @description 向特定用户发送消息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceSseSendSendApi = (params: {
 		userId: number;
@@ -75,7 +75,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 向所有用户发送消息
 	 * @description 向所有用户发送消息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceSseSendAllSend_1Api = (params: {
 		msg: string
@@ -88,7 +88,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 关闭 SSE 连接
 	 * @description 关闭 SSE 连接
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceSseCloseCloseApi = () => {
 		return http.get<RVoid>(
@@ -99,7 +99,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 短信验证码
 	 * @description 短信验证码
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceSmsCodeSmsCodeApi = (params: {
 		phonenumber: string
@@ -112,7 +112,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 查询OSS对象存储列表
 	 * @description 查询OSS对象存储列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssListList_16Api = (params: {
 		bo: SysOssBo;
@@ -126,7 +126,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 查询OSS对象基于id串
 	 * @description 查询OSS对象基于id串
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssListByIdsListByIdsApi = (params: {
 		ossIds: number[]
@@ -139,7 +139,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 下载OSS对象
 	 * @description 下载OSS对象
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssDownloadDownload_1Api = (params: {
 		ossId: number
@@ -152,7 +152,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 获取对象存储配置详细信息
 	 * @description 获取对象存储配置详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssConfigGetInfo_19Api = (params: {
 		ossConfigId: number
@@ -165,7 +165,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 查询对象存储配置列表
 	 * @description 查询对象存储配置列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssConfigListList_17Api = (params: {
 		bo: SysOssConfigBo;
@@ -179,7 +179,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 邮箱验证码
 	 * @description 邮箱验证码
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceEmailCodeEmailCodeApi = (params: {
 		email: string
@@ -192,7 +192,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 删除OSS对象存储
 	 * @description 删除OSS对象存储
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssRemove_21Api = (params: {
 		ossIds: number[]
@@ -205,7 +205,7 @@ import type { RVoid, SysOssConfigBo, RSysOssUploadVo, TableDataInfoSysOssVo, Sys
 	/**
 	 * 删除对象存储配置
 	 * @description 删除对象存储配置
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.348Z
 	 */
 	export const resourceOssConfigRemove_22Api = (params: {
 		ossConfigIds: number[]

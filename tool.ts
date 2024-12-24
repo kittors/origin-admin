@@ -6,7 +6,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 修改保存代码生成业务
 	 * @description 修改保存代码生成业务
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenEditSaveApi = (params: GenTable) => {
 		return http.put<RVoid>(
@@ -17,7 +17,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 导入表结构（保存）
 	 * @description 导入表结构（保存）
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenImportTableImportTableSaveApi = (params: {
 		tables: string;
@@ -31,7 +31,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 修改代码生成业务
 	 * @description 修改代码生成业务
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenGetInfo_4Api = (params: {
 		tableId: number
@@ -44,7 +44,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 同步数据库
 	 * @description 同步数据库
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenSynchDbSynchDbApi = (params: {
 		tableId: number
@@ -57,7 +57,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 预览代码
 	 * @description 预览代码
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenPreviewPreviewApi = (params: {
 		tableId: number
@@ -70,7 +70,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 查询代码生成列表
 	 * @description 查询代码生成列表
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenListGenListApi = (params: {
 		genTable: GenTable;
@@ -84,7 +84,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 查询数据源名称列表
 	 * @description 查询数据源名称列表
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenGetDataNamesGetCurrentDataSourceNameListApi = () => {
 		return http.get<RObject>(
@@ -95,7 +95,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 生成代码（自定义路径）
 	 * @description 生成代码（自定义路径）
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenGenCodeGenCodeApi = (params: {
 		tableId: number
@@ -108,7 +108,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 生成代码（下载方式）
 	 * @description 生成代码（下载方式）
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenDownloadDownloadApi = (params: {
 		tableId: number
@@ -121,7 +121,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 查询数据库列表
 	 * @description 查询数据库列表
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenDbListDataListApi = (params: {
 		genTable: GenTable;
@@ -135,7 +135,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 查询数据表字段列表
 	 * @description 查询数据表字段列表
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenColumnColumnListApi = (params: {
 		tableId: number
@@ -148,7 +148,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 批量生成代码
 	 * @description 批量生成代码
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenBatchGenCodeBatchGenCodeApi = (params: {
 		tableIdStr: string
@@ -161,7 +161,7 @@ import type { RVoid, GenTable, RMapStringObject, RMapStringString, TableDataInfo
 	/**
 	 * 删除代码生成
 	 * @description 删除代码生成
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.344Z
 	 */
 	export const toolGenRemove_8Api = (params: {
 		tableIds: number[]

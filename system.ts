@@ -6,7 +6,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改用户
 	 * @description 修改用户
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserEdit_3Api = (params: SysUserBo) => {
 		return http.put<RVoid>(
@@ -17,7 +17,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增用户
 	 * @description 新增用户
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserAdd_3Api = (params: SysUserBo) => {
 		return http.post<RVoid>(
@@ -28,7 +28,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 重置密码
 	 * @description 重置密码
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserResetPwdResetPwdApi = (params: SysUserBo) => {
 		return http.put<RVoid>(
@@ -39,7 +39,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 个人信息
 	 * @description 个人信息
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserProfileProfileApi = () => {
 		return http.get<RProfileVo>(
@@ -50,7 +50,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改用户信息
 	 * @description 修改用户信息
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserProfileUpdateProfileApi = (params: SysUserProfileBo) => {
 		return http.put<RVoid>(
@@ -61,7 +61,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 重置密码
 	 * @description 重置密码
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserProfileUpdatePwdUpdatePwdApi = (params: SysUserPasswordBo) => {
 		return http.put<RVoid>(
@@ -72,7 +72,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 状态修改
 	 * @description 状态修改
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserChangeStatusChangeStatusApi = (params: SysUserBo) => {
 		return http.put<RVoid>(
@@ -83,7 +83,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 用户授权角色
 	 * @description 用户授权角色
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserAuthRoleInsertAuthRoleApi = (params: {
 		userId: number;
@@ -97,7 +97,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改租户
 	 * @description 修改租户
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemTenantEdit_4Api = (params: SysTenantBo) => {
 		return http.put<RVoid>(
@@ -108,7 +108,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增租户
 	 * @description 新增租户
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemTenantAdd_4Api = (params: SysTenantBo) => {
 		return http.post<RVoid>(
@@ -119,7 +119,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改租户套餐
 	 * @description 修改租户套餐
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemTenantPackageEdit_5Api = (params: SysTenantPackageBo) => {
 		return http.put<RVoid>(
@@ -130,7 +130,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增租户套餐
 	 * @description 新增租户套餐
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemTenantPackageAdd_5Api = (params: SysTenantPackageBo) => {
 		return http.post<RVoid>(
@@ -141,7 +141,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 状态修改
 	 * @description 状态修改
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemTenantPackageChangeStatusChangeStatus_1Api = (params: SysTenantPackageBo) => {
 		return http.put<RVoid>(
@@ -152,7 +152,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 状态修改
 	 * @description 状态修改
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemTenantChangeStatusChangeStatus_2Api = (params: SysTenantBo) => {
 		return http.put<RVoid>(
@@ -163,7 +163,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改保存角色
 	 * @description 修改保存角色
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemRoleEdit_6Api = (params: SysRoleBo) => {
 		return http.put<RVoid>(
@@ -174,7 +174,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增角色
 	 * @description 新增角色
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemRoleAdd_6Api = (params: SysRoleBo) => {
 		return http.post<RVoid>(
@@ -185,7 +185,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改保存数据权限
 	 * @description 修改保存数据权限
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemRoleDataScopeDataScopeApi = (params: SysRoleBo) => {
 		return http.put<RVoid>(
@@ -196,7 +196,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 状态修改
 	 * @description 状态修改
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemRoleChangeStatusChangeStatus_3Api = (params: SysRoleBo) => {
 		return http.put<RVoid>(
@@ -207,7 +207,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 批量选择用户授权
 	 * @description 批量选择用户授权
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemRoleAuthUserSelectAllSelectAuthUserAllApi = (params: {
 		roleId: number;
@@ -221,7 +221,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 取消授权用户
 	 * @description 取消授权用户
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemRoleAuthUserCancelCancelAuthUserApi = (params: SysUserRole) => {
 		return http.put<RVoid>(
@@ -232,7 +232,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 批量取消授权用户
 	 * @description 批量取消授权用户
-	 * @date 2024-12-22T12:48:34.484Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemRoleAuthUserCancelAllCancelAuthUserAllApi = (params: {
 		roleId: number;
@@ -246,7 +246,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改岗位
 	 * @description 修改岗位
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemPostEdit_7Api = (params: SysPostBo) => {
 		return http.put<RVoid>(
@@ -257,7 +257,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增岗位
 	 * @description 新增岗位
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemPostAdd_7Api = (params: SysPostBo) => {
 		return http.post<RVoid>(
@@ -268,7 +268,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改通知公告
 	 * @description 修改通知公告
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemNoticeEdit_8Api = (params: SysNoticeBo) => {
 		return http.put<RVoid>(
@@ -279,7 +279,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增通知公告
 	 * @description 新增通知公告
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemNoticeAdd_8Api = (params: SysNoticeBo) => {
 		return http.post<RVoid>(
@@ -290,7 +290,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改菜单
 	 * @description 修改菜单
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemMenuEdit_9Api = (params: SysMenuBo) => {
 		return http.put<RVoid>(
@@ -301,7 +301,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增菜单
 	 * @description 新增菜单
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemMenuAdd_9Api = (params: SysMenuBo) => {
 		return http.post<RVoid>(
@@ -312,7 +312,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改字典类型
 	 * @description 修改字典类型
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemDictTypeEdit_10Api = (params: SysDictTypeBo) => {
 		return http.put<RVoid>(
@@ -323,7 +323,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增字典类型
 	 * @description 新增字典类型
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemDictTypeAdd_10Api = (params: SysDictTypeBo) => {
 		return http.post<RVoid>(
@@ -334,7 +334,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改保存字典类型
 	 * @description 修改保存字典类型
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemDictDataEdit_11Api = (params: SysDictDataBo) => {
 		return http.put<RVoid>(
@@ -345,7 +345,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增字典类型
 	 * @description 新增字典类型
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemDictDataAdd_11Api = (params: SysDictDataBo) => {
 		return http.post<RVoid>(
@@ -356,7 +356,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改部门
 	 * @description 修改部门
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemDeptEdit_12Api = (params: SysDeptBo) => {
 		return http.put<RVoid>(
@@ -367,7 +367,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增部门
 	 * @description 新增部门
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemDeptAdd_12Api = (params: SysDeptBo) => {
 		return http.post<RVoid>(
@@ -378,7 +378,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改参数配置
 	 * @description 修改参数配置
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemConfigEdit_13Api = (params: SysConfigBo) => {
 		return http.put<RVoid>(
@@ -389,7 +389,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增参数配置
 	 * @description 新增参数配置
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemConfigAdd_13Api = (params: SysConfigBo) => {
 		return http.post<RVoid>(
@@ -400,7 +400,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据参数键名修改参数配置
 	 * @description 根据参数键名修改参数配置
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemConfigUpdateByKeyUpdateByKeyApi = (params: SysConfigBo) => {
 		return http.put<RVoid>(
@@ -411,7 +411,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 修改客户端管理
 	 * @description 修改客户端管理
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemClientEdit_14Api = (params: SysClientBo) => {
 		return http.put<RVoid>(
@@ -422,7 +422,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 新增客户端管理
 	 * @description 新增客户端管理
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemClientAdd_14Api = (params: SysClientBo) => {
 		return http.post<RVoid>(
@@ -433,7 +433,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 状态修改
 	 * @description 状态修改
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemClientChangeStatusChangeStatus_4Api = (params: SysClientBo) => {
 		return http.put<RVoid>(
@@ -444,7 +444,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 头像上传
 	 * @description 头像上传
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserProfileAvatarAvatarApi = (params: FormData) => {
 		return http.post<RAvatarVo>(
@@ -455,7 +455,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取导入模板
 	 * @description 获取导入模板
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserImportTemplateImportTemplateApi = () => {
 		return http.post<ResultData<string>>(
@@ -466,7 +466,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导入数据
 	 * @description 导入数据
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserImportDataImportDataApi = (params: FormData) => {
 		return http.post<RVoid>(
@@ -477,7 +477,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出用户列表
 	 * @description 导出用户列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemUserExportExport_3Api = (params: {
 		user: SysUserBo
@@ -490,7 +490,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出租户套餐列表
 	 * @description 导出租户套餐列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemTenantPackageExportExport_4Api = (params: {
 		bo: SysTenantPackageBo
@@ -503,7 +503,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出租户列表
 	 * @description 导出租户列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemTenantExportExport_5Api = (params: {
 		bo: SysTenantBo
@@ -516,7 +516,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出角色信息列表
 	 * @description 导出角色信息列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.345Z
 	 */
 	export const systemRoleExportExport_6Api = (params: {
 		role: SysRoleBo
@@ -529,7 +529,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出岗位列表
 	 * @description 导出岗位列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemPostExportExport_7Api = (params: {
 		post: SysPostBo
@@ -542,7 +542,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出字典类型列表
 	 * @description 导出字典类型列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemDictTypeExportExport_8Api = (params: {
 		dictType: SysDictTypeBo
@@ -555,7 +555,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出字典数据列表
 	 * @description 导出字典数据列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemDictDataExportExport_9Api = (params: {
 		dictData: SysDictDataBo
@@ -568,7 +568,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出参数配置列表
 	 * @description 导出参数配置列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemConfigExportExport_10Api = (params: {
 		config: SysConfigBo
@@ -581,7 +581,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 导出客户端管理列表
 	 * @description 导出客户端管理列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemClientExportExport_11Api = (params: {
 		bo: SysClientBo
@@ -594,7 +594,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据用户ID串批量获取用户基础信息
 	 * @description 根据用户ID串批量获取用户基础信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemUserOptionselectOptionselectApi = (params: {
 		userIds?: number[];
@@ -608,7 +608,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取用户列表
 	 * @description 获取用户列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemUserListList_3Api = (params: {
 		user: SysUserBo;
@@ -622,7 +622,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取部门下的所有用户信息
 	 * @description 获取部门下的所有用户信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemUserListDeptListByDeptApi = (params: {
 		deptId: number
@@ -635,7 +635,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取用户信息
 	 * @description 获取用户信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemUserGetInfoGetInfo_5Api = () => {
 		return http.get<RUserInfoVo>(
@@ -646,7 +646,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取部门树列表
 	 * @description 获取部门树列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemUserDeptTreeDeptTreeApi = (params: {
 		dept: SysDeptBo
@@ -659,7 +659,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据用户编号获取授权角色
 	 * @description 根据用户编号获取授权角色
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemUserAuthRoleAuthRoleApi = (params: {
 		userId: number
@@ -672,7 +672,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据用户编号获取详细信息
 	 * @description 根据用户编号获取详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemUserGetInfo_6Api = (params: {
 		userId: number
@@ -685,7 +685,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据用户编号获取详细信息
 	 * @description 根据用户编号获取详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemUserGetInfo_7Api = () => {
 		return http.get<RSysUserInfoVo>(
@@ -696,7 +696,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取租户详细信息
 	 * @description 获取租户详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantGetInfo_8Api = (params: {
 		id: number
@@ -709,7 +709,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 同步租户套餐
 	 * @description 同步租户套餐
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantSyncTenantPackageSyncTenantPackageApi = (params: {
 		tenantId: string;
@@ -723,7 +723,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 同步租户字典
 	 * @description 同步租户字典
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantSyncTenantDictSyncTenantDictApi = () => {
 		return http.get<RVoid>(
@@ -734,7 +734,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取租户套餐详细信息
 	 * @description 获取租户套餐详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantPackageGetInfo_9Api = (params: {
 		packageId: number
@@ -747,7 +747,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询租户套餐下拉选列表
 	 * @description 查询租户套餐下拉选列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantPackageSelectListSelectList_1Api = () => {
 		return http.get<RListSysTenantPackageVo>(
@@ -758,7 +758,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询租户套餐列表
 	 * @description 查询租户套餐列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantPackageListList_4Api = (params: {
 		bo: SysTenantPackageBo;
@@ -772,7 +772,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询租户列表
 	 * @description 查询租户列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantListList_5Api = (params: {
 		bo: SysTenantBo;
@@ -786,7 +786,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 动态切换租户
 	 * @description 动态切换租户
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantDynamicDynamicTenantApi = (params: {
 		tenantId: string
@@ -799,7 +799,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 清除动态租户
 	 * @description 清除动态租户
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemTenantDynamicClearDynamicClearApi = () => {
 		return http.get<RVoid>(
@@ -810,7 +810,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询社会化关系列表
 	 * @description 查询社会化关系列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemSocialListList_6Api = () => {
 		return http.get<RListSysSocialVo>(
@@ -821,7 +821,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据角色编号获取详细信息
 	 * @description 根据角色编号获取详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemRoleGetInfo_10Api = (params: {
 		roleId: number
@@ -834,7 +834,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取角色选择框列表
 	 * @description 获取角色选择框列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemRoleOptionselectOptionselect_1Api = (params: {
 		roleIds?: number[]
@@ -847,7 +847,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取角色信息列表
 	 * @description 获取角色信息列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemRoleListList_7Api = (params: {
 		role: SysRoleBo;
@@ -861,7 +861,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取对应角色部门树列表
 	 * @description 获取对应角色部门树列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemRoleDeptTreeRoleDeptTreeselectApi = (params: {
 		roleId: number
@@ -874,7 +874,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询未分配用户角色列表
 	 * @description 查询未分配用户角色列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemRoleAuthUserUnallocatedListUnallocatedListApi = (params: {
 		user: SysUserBo;
@@ -888,7 +888,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询已分配用户角色列表
 	 * @description 查询已分配用户角色列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemRoleAuthUserAllocatedListAllocatedListApi = (params: {
 		user: SysUserBo;
@@ -902,7 +902,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据岗位编号获取详细信息
 	 * @description 根据岗位编号获取详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemPostGetInfo_11Api = (params: {
 		postId: number
@@ -915,7 +915,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取岗位选择框列表
 	 * @description 获取岗位选择框列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemPostOptionselectOptionselect_2Api = (params: {
 		postIds?: number[];
@@ -929,7 +929,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取岗位列表
 	 * @description 获取岗位列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemPostListList_8Api = (params: {
 		post: SysPostBo;
@@ -943,7 +943,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据通知公告编号获取详细信息
 	 * @description 根据通知公告编号获取详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemNoticeGetInfo_12Api = (params: {
 		noticeId: number
@@ -956,7 +956,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取通知公告列表
 	 * @description 获取通知公告列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemNoticeListList_9Api = (params: {
 		notice: SysNoticeBo;
@@ -970,7 +970,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据菜单编号获取详细信息
 	 * @description 根据菜单编号获取详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemMenuGetInfo_13Api = (params: {
 		menuId: number
@@ -983,7 +983,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除菜单
 	 * @description 删除菜单
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemMenuRemove_15Api = (params: {
 		menuId: number
@@ -996,7 +996,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取菜单下拉树列表
 	 * @description 获取菜单下拉树列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemMenuTreeselectTreeselectApi = (params: {
 		menu: SysMenuBo
@@ -1009,7 +1009,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 加载对应租户套餐菜单列表树
 	 * @description 加载对应租户套餐菜单列表树
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemMenuTenantPackageMenuTreeselectTenantPackageMenuTreeselectApi = (params: {
 		packageId: number
@@ -1022,7 +1022,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 加载对应角色菜单列表树
 	 * @description 加载对应角色菜单列表树
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemMenuRoleMenuTreeselectRoleMenuTreeselectApi = (params: {
 		roleId: number
@@ -1035,7 +1035,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取菜单列表
 	 * @description 获取菜单列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemMenuListList_10Api = (params: {
 		menu: SysMenuBo
@@ -1048,7 +1048,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取路由信息
 	 * @description 获取路由信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemMenuGetRoutersGetRoutersApi = () => {
 		return http.get<RListRouterVo>(
@@ -1059,7 +1059,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询字典类型详细
 	 * @description 查询字典类型详细
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.346Z
 	 */
 	export const systemDictTypeGetInfo_14Api = (params: {
 		dictId: number
@@ -1072,7 +1072,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取字典选择框列表
 	 * @description 获取字典选择框列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDictTypeOptionselectOptionselect_3Api = () => {
 		return http.get<RListSysDictTypeVo>(
@@ -1083,7 +1083,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询字典类型列表
 	 * @description 查询字典类型列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDictTypeListList_11Api = (params: {
 		dictType: SysDictTypeBo;
@@ -1097,7 +1097,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询字典数据详细
 	 * @description 查询字典数据详细
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDictDataGetInfo_15Api = (params: {
 		dictCode: number
@@ -1110,7 +1110,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据字典类型查询字典数据信息
 	 * @description 根据字典类型查询字典数据信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDictDataTypeDictTypeApi = (params: {
 		dictType: string
@@ -1123,7 +1123,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询字典数据列表
 	 * @description 查询字典数据列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDictDataListList_12Api = (params: {
 		dictData: SysDictDataBo;
@@ -1137,7 +1137,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据部门编号获取详细信息
 	 * @description 根据部门编号获取详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDeptGetInfo_16Api = (params: {
 		deptId: number
@@ -1150,7 +1150,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除部门
 	 * @description 删除部门
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDeptRemove_18Api = (params: {
 		deptId: number
@@ -1163,7 +1163,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取部门选择框列表
 	 * @description 获取部门选择框列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDeptOptionselectOptionselect_4Api = (params: {
 		deptIds?: number[]
@@ -1176,7 +1176,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取部门列表
 	 * @description 获取部门列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDeptListList_13Api = (params: {
 		dept: SysDeptBo
@@ -1189,7 +1189,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询部门列表（排除节点）
 	 * @description 查询部门列表（排除节点）
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDeptListExcludeExcludeChildApi = (params: {
 		deptId: number
@@ -1202,7 +1202,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据参数编号获取详细信息
 	 * @description 根据参数编号获取详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemConfigGetInfo_17Api = (params: {
 		configId: number
@@ -1215,7 +1215,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取参数配置列表
 	 * @description 获取参数配置列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemConfigListList_14Api = (params: {
 		config: SysConfigBo;
@@ -1229,7 +1229,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 根据参数键名查询参数值
 	 * @description 根据参数键名查询参数值
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemConfigConfigKeyGetConfigKeyApi = (params: {
 		configKey: string
@@ -1242,7 +1242,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 获取客户端管理详细信息
 	 * @description 获取客户端管理详细信息
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemClientGetInfo_18Api = (params: {
 		id: number
@@ -1255,7 +1255,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 查询客户端管理列表
 	 * @description 查询客户端管理列表
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemClientListList_15Api = (params: {
 		bo: SysClientBo;
@@ -1269,7 +1269,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除用户
 	 * @description 删除用户
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemUserRemove_9Api = (params: {
 		userIds: number[]
@@ -1282,7 +1282,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除租户
 	 * @description 删除租户
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemTenantRemove_10Api = (params: {
 		ids: number[]
@@ -1295,7 +1295,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除租户套餐
 	 * @description 删除租户套餐
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemTenantPackageRemove_11Api = (params: {
 		packageIds: number[]
@@ -1308,7 +1308,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除角色
 	 * @description 删除角色
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemRoleRemove_12Api = (params: {
 		roleIds: number[]
@@ -1321,7 +1321,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除岗位
 	 * @description 删除岗位
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemPostRemove_13Api = (params: {
 		postIds: number[]
@@ -1334,7 +1334,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除通知公告
 	 * @description 删除通知公告
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemNoticeRemove_14Api = (params: {
 		noticeIds: number[]
@@ -1347,7 +1347,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除字典类型
 	 * @description 删除字典类型
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDictTypeRemove_16Api = (params: {
 		dictIds: number[]
@@ -1360,7 +1360,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 刷新字典缓存
 	 * @description 刷新字典缓存
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDictTypeRefreshCacheRefreshCacheApi = () => {
 		return http.delete<RVoid>(
@@ -1371,7 +1371,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除字典类型
 	 * @description 删除字典类型
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemDictDataRemove_17Api = (params: {
 		dictCodes: number[]
@@ -1384,7 +1384,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除参数配置
 	 * @description 删除参数配置
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemConfigRemove_19Api = (params: {
 		configIds: number[]
@@ -1397,7 +1397,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 刷新参数缓存
 	 * @description 刷新参数缓存
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemConfigRefreshCacheRefreshCache_1Api = () => {
 		return http.delete<RVoid>(
@@ -1408,7 +1408,7 @@ import type { RVoid, SysUserBo, RProfileVo, SysUserProfileBo, SysUserPasswordBo,
 	/**
 	 * 删除客户端管理
 	 * @description 删除客户端管理
-	 * @date 2024-12-22T12:48:34.485Z
+	 * @date 2024-12-22T13:24:59.347Z
 	 */
 	export const systemClientRemove_20Api = (params: {
 		ids: number[]

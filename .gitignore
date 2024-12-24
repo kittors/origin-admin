@@ -36,3 +36,6 @@ playwright-report/
 src/api/modules/*
 
 vite/plugins/apiGenerator.ts
+
+# 数据库
+*.db
