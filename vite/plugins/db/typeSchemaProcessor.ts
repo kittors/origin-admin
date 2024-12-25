@@ -1,14 +1,19 @@
 import type { Database } from 'better-sqlite3';
 import logger from '../../../src/utils/logger';
-import type { ApiDoc, ExistingType, Schema, SchemaProperty } from './types';
+import type { ApiDoc, ExistingProperty, ExistingType, Schema, SchemaProperty } from './types';
 
-const boolToInt = (value: boolean): number => (value ? 1 : 0);
+const boolToInt = (name: string, required?: string[]): number => {
+	const isRequired = required ? required.includes(name) : true;
+	return isRequired ? 1 : 0;
+};
 
 export class TypeSchemaProcessor {
 	private db: Database;
 	private apiDoc: ApiDoc | null = null;
 	private noUpdatedNum = 0;
 	private insertNum = 0;
+	private propertyInsertNum = 0;
+	private noUpdatePropertyNum = 0;
 	constructor(db: Database) {
 		this.db = db;
 	}
@@ -28,9 +33,9 @@ export class TypeSchemaProcessor {
 
 			// 添加到已处理类型集合
 			processedTypes.add(name);
-			// if ('required' in schema) {
-			// 	logger.info(`类型 ${name} 包含 required`, schema);
-			// }
+			if ('$ref' in schema) {
+				logger.info(`类型 ${name} 包含 $ref`, schema);
+			}
 			// 构成标准数据
 			const standardData = {
 				name,
@@ -84,7 +89,6 @@ export class TypeSchemaProcessor {
 							standardData.required,
 							existingType.id,
 						);
-
 					logger.info(`类型 ${name} 已更新`, existingType);
 					this.insertProperty(existingType.id, schema.properties, schema.required);
 				} else {
@@ -132,28 +136,64 @@ export class TypeSchemaProcessor {
 		if (!properties) return;
 
 		for (const [name, property] of Object.entries(properties)) {
-			// logger.info('属性', name, property);
-			if ('items' in property && property.items && Object.keys(property.items).length > 0) {
-				this.insertProperty(id, { [name]: property.items }, required);
-				return;
+			if (property.$ref) {
+				property.type = property.$ref.split('/').pop() ?? '';
 			}
-			this.db
-				.prepare(
-					'INSERT INTO type_properties (type_id, parent_id, name, type, additionalProperties, description, format, is_required, is_item_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-				)
-				.run(
-					id, // type_id
-					null, // parent_id
-					name, // name
-					property.type ?? '', // type
-					property.additionalProperties
-						? JSON.stringify(property.additionalProperties)
-						: '', // additionalProperties
-					property.description ?? '', // description
-					property.format ?? '', // format
-					required ? boolToInt(required[name]) : 1, // is_required
-					property.items ? 1 : 0, // is_item_type
-				);
+			const existingProperty = this.db
+				.prepare('SELECT * FROM type_properties WHERE type_id = ? AND name = ?')
+				.get(id, name) as ExistingProperty;
+
+			if (existingProperty) {
+				const hasChanges =
+					existingProperty.type === (property.type ?? '') &&
+					existingProperty.additionalProperties ===
+						(property.additionalProperties
+							? JSON.stringify(property.additionalProperties)
+							: '') &&
+					existingProperty.items ===
+						(property.items ? JSON.stringify(property.items) : '') &&
+					existingProperty.description === (property.description ?? '') &&
+					existingProperty.format === (property.format ?? '') &&
+					(required ? boolToInt(name, required) : 1) === existingProperty.is_required;
+				if (hasChanges) {
+					this.db
+						.prepare(
+							'UPDATE type_properties SET type = ?, additionalProperties = ?, items = ?, description = ?, format = ?, is_required = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+						)
+						.run(
+							property.type ?? '',
+							property.additionalProperties
+								? JSON.stringify(property.additionalProperties)
+								: '',
+							property.items ? JSON.stringify(property.items) : '',
+							property.description ?? '',
+							property.format ?? '',
+							required ? boolToInt(name, required) : 1,
+							existingProperty.id,
+						);
+
+					return;
+				}
+			} else {
+				this.db
+					.prepare(
+						'INSERT INTO type_properties (type_id, name, type, additionalProperties,items, description, format, is_required) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+					)
+					.run(
+						id, // type_id
+						name, // name
+						property.type ?? '', // type
+						property.additionalProperties
+							? JSON.stringify(property.additionalProperties)
+							: '', // additionalProperties
+						property.items ? JSON.stringify(property.items) : '', // items
+						property.description ?? '', // description
+						property.format ?? '', // format
+						required ? boolToInt(name, required) : 1, // is_required
+					);
+				this.noUpdatePropertyNum++;
+				this.propertyInsertNum++;
+			}
 		}
 	}
 
@@ -203,7 +243,9 @@ export class TypeSchemaProcessor {
 		try {
 			this.apiDoc = apiDoc;
 			this.noUpdatedNum = 0;
+			this.propertyInsertNum = 0;
 			this.insertNum = 0;
+			this.noUpdatePropertyNum = 0;
 			await this.deleteOldType();
 
 			// 处理新的类型定义
@@ -214,8 +256,10 @@ export class TypeSchemaProcessor {
 				for (const [name, schema] of Object.entries<Schema>(apiDoc.components.schemas)) {
 					await this.insertType(name, schema);
 				}
-				logger.info(`无任何更新数量: ${this.noUpdatedNum}`);
+				logger.info(`无任何更新类型数量: ${this.noUpdatedNum}`);
 				logger.info(`新增数量: ${this.insertNum}`);
+				logger.info(`新增属性数量: ${this.propertyInsertNum}`);
+				logger.info(`无更新属性数量: ${this.noUpdatePropertyNum}`);
 				logger.success('所有类型数据处理完成');
 			}
 		} catch (error) {

@@ -56,19 +56,17 @@ export function initDB(): DatabaseType {
                 CREATE TABLE IF NOT EXISTS type_properties (
                     id INTEGER PRIMARY KEY AUTOINCREMENT, -- 主键ID
                     type_id INTEGER NOT NULL, -- 类型ID
-                    parent_id INTEGER, -- 父属性ID，允许为空
                     name TEXT NOT NULL, -- 属性名称
                     type TEXT NOT NULL, -- 类型
                     additionalProperties TEXT NOT NULL, -- 附加属性
+                    items TEXT NOT NULL, -- 数组项
                     description TEXT NOT NULL, -- 描述
                     format TEXT NOT NULL, -- 格式化
                     is_required INTEGER NOT NULL, -- 是否必选
-                    is_item_type INTEGER NOT NULL, -- 是否是数组项
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- 创建时间
                     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- 更新时间
                     FOREIGN KEY (type_id) REFERENCES types(id), -- 外键约束
-                    FOREIGN KEY (parent_id) REFERENCES type_properties(id), -- 自引用关系
-                    UNIQUE(type_id, parent_id, name) -- 唯一约束
+                    UNIQUE(type_id, name) -- 唯一约束
                 );
             `);
 			logger.success('数据库表创建完成');

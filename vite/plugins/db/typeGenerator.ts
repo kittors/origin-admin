@@ -2,32 +2,21 @@ import fs from 'node:fs/promises';
 import { resolve } from 'node:path';
 import type { Database } from 'better-sqlite3';
 import logger from '../../../src/utils/logger';
-import type { ExistingType, SchemaProperty } from './types';
+import { type ExistingProperty, type ExistingType, typeMapping } from './types';
 
 export class TypeGenerator {
 	private db: Database;
 
-	// Java类型到TypeScript类型的映射
-	private typeMapping: Record<string, string> = {
-		integer: 'number',
-		string: 'string',
-		boolean: 'boolean',
-		number: 'number',
-		float: 'number',
-		double: 'number',
-		long: 'number',
-		int: 'number',
-		date: 'string',
-		datetime: 'string',
-		binary: 'Blob',
-		byte: 'number',
-		void: 'void',
-		map: 'Record<string, any>',
-		file: 'File',
-	};
-
 	constructor(db: Database) {
 		this.db = db;
+	}
+
+	private replaceParaTags(text: string): string {
+		return text
+			.replace(/\n/g, '') // 移除所有换行符
+			.replace(/<p>/g, '')
+			.replace(/<\/p>/g, '') // 替换 <p> 标签为 *
+			.replace(/<[^>]*>/g, ''); // 移除所有其他 HTML 标签
 	}
 
 	private async generateTypeDefinitions(): Promise<string> {
@@ -35,23 +24,28 @@ export class TypeGenerator {
 			// 获取所有类型及其属性
 			const types = this.db
 				.prepare(`
-        SELECT id, name, type, description, additionalProperties, required, created_at, updated_at FROM types
+        SELECT * FROM types
       `)
 				.all() as ExistingType[];
 
 			let output = '// 自动生成的类型定义文件，请勿手动修改\n\n';
 
 			for (const type of types) {
+				output += `/**\n * @description ${this.replaceParaTags(type.description)}\n * @createTime ${type.created_at}\n * @updateTime ${type.updated_at}\n**/\n`;
+
 				output += `export interface ${type.name} {\n`;
-				output += `  /** ${type.description} */\n`;
 				const properties = this.db
 					.prepare(`
-          SELECT * FROM type_properties WHERE type_id = ? AND parent_id IS NULL
-        `)
-					.all(type.id) as SchemaProperty[];
+				  SELECT * FROM type_properties WHERE type_id = ?
+				`)
+					.all(type.id) as ExistingProperty[];
 				for (const prop of properties) {
+					if (prop.description) {
+						output += `  /** ${this.replaceParaTags(prop.description)} */\n`;
+					}
 					output += this.generatePropertyDefinition(prop);
 				}
+
 				output += '}\n\n';
 			}
 
@@ -62,55 +56,43 @@ export class TypeGenerator {
 		}
 	}
 
-	private generatePropertyDefinition(prop: SchemaProperty): string {
-		let typeDefinition: string;
-
-		if (prop.type === 'array') {
-			// logger.info('数组项有子属性', prop);
-			typeDefinition = this.generateArrayTypeDefinition(prop);
-		} else {
-			// 检查是否有子属性
-			const childProperties = this.db
-				.prepare(`
-        SELECT * FROM type_properties WHERE parent_id = ?
-      `)
-				.all(prop.id) as SchemaProperty[];
-
-			if (childProperties.length > 0) {
-				// 递归生成子属性的接口定义
-				typeDefinition = '{\n';
-				for (const childProp of childProperties) {
-					typeDefinition += this.generatePropertyDefinition(childProp);
-				}
-				typeDefinition += '  }';
-			} else {
-				typeDefinition = this.typeMapping[prop.type] || prop.type;
-			}
+	private generateArrayTypeDefinition(prop: ExistingProperty): string {
+		if (prop.items) {
+			const itemType =
+				typeMapping[JSON.parse(prop.items).type] ||
+				JSON.parse(prop.items).$ref.split('/').pop() ||
+				'any';
+			return `Array<${itemType}>`;
 		}
-
-		return `  ${prop.name}: ${typeDefinition};\n`;
+		return 'Array<any>';
 	}
 
-	private generateArrayTypeDefinition(prop: SchemaProperty): string {
-		// 获取数组项的子属性
-		const itemProperties = this.db
-			.prepare(`
-      SELECT * FROM type_properties WHERE parent_id = ?
-    `)
-			.all(prop.id) as SchemaProperty[];
-		logger.info('数组项有子属性', itemProperties);
-		if (itemProperties.length > 0) {
-			//
-			// 递归生成数组项的接口定义
-			let arrayType = '{\n';
-			for (const itemProp of itemProperties) {
-				arrayType += this.generatePropertyDefinition(itemProp);
-			}
-			arrayType += '  }[]';
-			return arrayType;
+	private generateObjectDefinition(prop: ExistingProperty) {
+		if (prop.additionalProperties) {
+			const objectType =
+				typeMapping[JSON.parse(prop.additionalProperties).type] ||
+				JSON.parse(prop.additionalProperties).$ref.split('/').pop() ||
+				'any';
+			return `Record<string, ${objectType}>`;
+		}
+		return 'Record<string, any>';
+	}
+
+	private generatePropertyDefinition(prop: ExistingProperty) {
+		if (prop.type === 'array') {
+			return `  ${prop.name}${prop.is_required ? ':' : '?:'} ${this.generateArrayTypeDefinition(prop)}; \n`;
 		}
 
-		return `${this.typeMapping[prop.type] || 'any'}[]`;
+		if (prop.type === 'object') {
+			return `  ${prop.name}${prop.is_required ? ':' : '?:'} ${this.generateObjectDefinition(prop)};\n`;
+		}
+
+		const typeValue = typeMapping[`${prop.type}:${prop.format}`];
+
+		if (!typeValue) {
+			return `  ${prop.name}${prop.is_required ? ':' : '?:'} ${prop.type};\n`;
+		}
+		return `  ${prop.name}${prop.is_required ? ':' : '?:'} ${typeValue};\n`;
 	}
 
 	public async generateTypeFile(): Promise<void> {

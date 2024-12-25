@@ -30,6 +30,20 @@ interface ExistingType {
 	updated_at: string;
 }
 
+interface ExistingProperty {
+	id: number;
+	type_id: number;
+	name: string;
+	type: string;
+	additionalProperties: string;
+	items: string;
+	description: string;
+	format: string;
+	is_required: number;
+	created_at: string;
+	updated_at: string;
+}
+
 // 联系信息
 interface Contact {
 	name: string;
@@ -140,4 +154,5 @@ const typeMapping = {
 	'integer:int64': 'number',
 };
 
-export type { ExistingType, Schema, SchemaProperty, ApiDoc, typeMapping };
+export type { ExistingType, Schema, SchemaProperty, ApiDoc, ExistingProperty };
+export { typeMapping };
