@@ -14,7 +14,7 @@
 - 📦 [Pinia](https://pinia.vuejs.org/) 状态管理
 - 🔐 基于角色的权限控制
 - 🛠️ [Biome](https://biomejs.dev/) - 高性能代码格式化和 Linting 工具
-- 🔄 基于 OpenAPI 3.0 的接口代码自动生成
+- 🔄 基于 SQLite 的接口代码自动生成器
 
 ## 📦 预设环境
 
