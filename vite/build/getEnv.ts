@@ -18,6 +18,8 @@ export function wrapperEnv(envConf: Recordable): ViteEnv {
 		VITE_OPENAPI_URL: '',
 		VITE_CODEINSPECTOR: false,
 		VITE_API_GENERATE: false,
+		VITE_APP_BASE_API: '/dev-api',
+		VITE_APP_SERVER_URL: 'http://localhost:8080'
 	};
 	for (const envName of Object.keys(envConf)) {
 		const rawValue = envConf[envName] as string;
