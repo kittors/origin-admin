@@ -11,6 +11,7 @@ import type {
 	SchemaProperty,
 } from './types';
 import { typeMapping } from './types';
+// 生成API文件
 export class ApiGenerator {
 	private db: Database;
 	constructor(db: Database) {
@@ -35,6 +36,8 @@ export class ApiGenerator {
 			throw error;
 		}
 	}
+
+	// 过滤类型
 	private filterType(type: string): string {
 		if (
 			type.includes('{') ||
@@ -59,6 +62,7 @@ export class ApiGenerator {
 		return type;
 	}
 
+	// 生成类型
 	private async generateType(schema: SchemaProperty): Promise<string> {
 		if (schema.type === 'array') {
 			return `Array<${schema.items ? await this.generateType(schema.items) : 'any'}>`;
@@ -200,16 +204,104 @@ export class ApiGenerator {
 		return { content: `http.${api.method}<${type}>`, type: content };
 	}
 
+	// 处理路径
+	private processArrayPath(path: string): { processedPath: string; arrayParams: string[] } {
+		const arrayParams: string[] = [];
+		const segments = path.split('/');
+		const processedSegments = segments.map((segment) => {
+			if (segment.startsWith('{') && segment.endsWith('}')) {
+				const paramName = segment.slice(1, -1);
+				arrayParams.push(paramName);
+				return '';
+			}
+			return segment;
+		});
+
+		// 移除空段并处理多余的斜杠
+		const processedPath = processedSegments.filter(Boolean).join('/').replace(/\/+$/, '');
+
+		return {
+			processedPath: `/${processedPath}`,
+			arrayParams,
+		};
+	}
+
+	// 处理路径
+	private processPath(path: string, paramsContent: string): string {
+		if (!paramsContent) return `'${path}'`;
+
+		const params = JSON.parse(this.paramsToJson(paramsContent));
+		let { processedPath, arrayParams } = this.processArrayPath(path);
+		// 检查是否有数组参数需要处理
+		if (arrayParams.length > 0) {
+			for (const param of arrayParams) {
+				if (params[param]) {
+					// 检查是否是数组类型
+					const isArrayType =
+						params[param].includes('Array') || params[param].includes('[]');
+					if (!isArrayType) {
+						processedPath += `/\$\{params.${param}\}`;
+					}
+				}
+			}
+			if (processedPath.includes('{')) {
+				return `\`${processedPath}\``;
+			}
+			return `'${processedPath}'`;
+		}
+		return `'${path}'`;
+	}
+
+	// 提取路径参数
+	private extractPathParams(path: string): string[] {
+		const matches = path.match(/\$\{params\.(\w+)\}/g);
+		if (!matches) return [];
+
+		return matches.map((match) => match.replace(/\$\{params\./, '').replace(/\}/, ''));
+	}
+
+	// 过滤非路径参数
+	private filterNonPathParams(params: Record<string, string>, pathParams: string[]): string[] {
+		return Object.keys(params).filter((key) => !pathParams.includes(key));
+	}
+
+	// 生成参数
+	private showParamsKey(paramsContent: string, path: string): string {
+		const params = JSON.parse(this.paramsToJson(paramsContent));
+		if (paramsContent !== '') {
+			const pathParams = this.extractPathParams(path);
+			const queryParams = this.filterNonPathParams(params, pathParams);
+			if (!queryParams.length) {
+				return '';
+			}
+			if (queryParams.length) {
+				let content = ',{';
+				for (let i = 0; i < queryParams.length; i++) {
+					const param = queryParams[i];
+					content += ` ${param}: params.${param}${i < queryParams.length - 1 ? ',' : ''}`;
+				}
+				content += ' }';
+				return content;
+			}
+
+			return ', params';
+		}
+		return '';
+	}
+
 	private async generateApiContent(
 		api: ExistingApi,
 	): Promise<{ output: string; type: string; types: string[] }> {
 		let output = '';
-
 		output += `/**\n * @description ${this.replaceParaTags(api.description)}\n * @createTime ${api.created_at}\n * @updateTime ${api.updated_at}\n **/\n`;
 		const { content, type } = await this.generateHttpMethod(api);
 		const { content: paramsContent, types } = await this.generateParamsContent(api);
+
+		// 处理路径
+		const processedPath = this.processPath(api.path, paramsContent);
+
 		output += `export const ${api.operationId}Api = (${paramsContent}) => {\n`;
-		output += `  return ${content}('${api.path}'${paramsContent === '' ? '' : ', params'})\n`;
+		output += `  return ${content}(${processedPath}${this.showParamsKey(paramsContent, processedPath)})\n`;
 		output += '}\n\n';
 
 		return { output, type, types };
@@ -222,6 +314,31 @@ export class ApiGenerator {
 		const uniqueTypes = [...new Set(types)].sort();
 
 		return `import type { ${uniqueTypes.join(', ')} } from './type/api-types';\n\n`;
+	}
+
+	private paramsToJson(paramsContent: string): string {
+		// 如果没有参数内容，返回空对象
+		if (!paramsContent) return '{}';
+
+		// 移除 "params: " 前缀和首尾的花括号
+		const cleanParams = paramsContent
+			.replace('params:', '')
+			.replace(/^\s*{\s*/, '')
+			.replace(/\s*}\s*$/, '');
+
+		// 分割参数
+		const params = cleanParams.split(',').map((param) => param.trim());
+
+		// 构建 JSON 对象
+		const jsonObj: Record<string, string> = {};
+		for (const param of params) {
+			const [key, type] = param.split(':').map((s) => s.trim());
+			if (key && type) {
+				jsonObj[key] = type;
+			}
+		}
+
+		return JSON.stringify(jsonObj, null, 2);
 	}
 
 	// 生成API文件
