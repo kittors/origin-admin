@@ -52,7 +52,7 @@
 <script setup lang="ts">
 // import { getTimeState } from "@/utils";
 import type { Login } from '@/api/interface';
-import { authCodeGetCodeApi } from '@/api/modules/auth';
+import { getCodeApi } from '@/api/modules/auth';
 import { HOME_URL } from '@/config';
 import { initDynamicRouter } from '@/routers/modules/dynamicRouter';
 import { useKeepAliveStore } from '@/stores/modules/keepAlive';
@@ -88,7 +88,7 @@ const loginForm = reactive<Login.ReqLoginForm>({
 // 获取验证码图片地址
 const codeUrl = ref('');
 const getCodeUrl = async () => {
-	const { data } = await authCodeGetCodeApi();
+	const { data } = await getCodeApi();
 	if (data.img) {
 		// 将图片地址转换为 base64
 		codeUrl.value = `data:image/png;base64,${data.img}`;

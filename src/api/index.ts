@@ -1,4 +1,4 @@
-import type { ResultData } from '@/api/interface';
+import type { Result, ResultData } from '@/api/interface';
 import { showFullScreenLoading, tryHideFullScreenLoading } from '@/components/Loading/fullScreen';
 import { LOGIN_URL } from '@/config';
 import { ResultEnum } from '@/enums/httpEnum';

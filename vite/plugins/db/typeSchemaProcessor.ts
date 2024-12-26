@@ -33,9 +33,6 @@ export class TypeSchemaProcessor {
 
 			// 添加到已处理类型集合
 			processedTypes.add(name);
-			if ('$ref' in schema) {
-				logger.info(`类型 ${name} 包含 $ref`, schema);
-			}
 			// 构成标准数据
 			const standardData = {
 				name,
@@ -263,7 +260,7 @@ export class TypeSchemaProcessor {
 				logger.success('所有类型数据处理完成');
 			}
 		} catch (error) {
-			logger.error('数据插入失败:', error);
+			logger.error('类型数据插入失败:', error);
 			throw error;
 		}
 	}

@@ -5,7 +5,7 @@ import type { Database as DatabaseType } from 'better-sqlite3';
 import logger from '../../../src/utils/logger';
 
 const DB_PATH = resolve(process.cwd(), '.api-db/api-history.db');
-const REQUIRED_TABLES = ['types', 'type_properties'];
+const REQUIRED_TABLES = ['types', 'type_properties', 'api_modules', 'api_doc_content'];
 
 export function initDB(): DatabaseType {
 	try {
@@ -67,6 +67,34 @@ export function initDB(): DatabaseType {
                     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- 更新时间
                     FOREIGN KEY (type_id) REFERENCES types(id), -- 外键约束
                     UNIQUE(type_id, name) -- 唯一约束
+                );
+
+                -- API 模块表
+                CREATE TABLE IF NOT EXISTS api_modules (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT, -- 主键ID
+                   name TEXT NOT NULL, -- 模块名称
+                   created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- 创建时间
+                   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- 更新时间
+                   UNIQUE(name) -- 唯一约束
+                );
+
+                -- API文档内容表
+                CREATE TABLE IF NOT EXISTS api_doc_content (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, -- 主键ID
+                    modules_id INTEGER NOT NULL, -- 模块ID
+                    method TEXT NOT NULL, -- 请求方法
+                    path TEXT NOT NULL, -- 请求路径
+                    tags TEXT NOT NULL, -- 标签
+                    summary TEXT NOT NULL, -- 摘要
+                    description TEXT NOT NULL, -- 描述
+                    operationId TEXT NOT NULL, -- 操作ID
+                    parameters TEXT NOT NULL, -- 参数
+                    requestBody TEXT NOT NULL, -- 请求
+                    responses TEXT NOT NULL, -- 响应
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- 创建时间
+                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- 更新时间
+                    FOREIGN KEY (modules_id) REFERENCES api_modules(id), -- 外键约束
+                    UNIQUE(method, path, modules_id) -- 唯一约束
                 );
             `);
 			logger.success('数据库表创建完成');

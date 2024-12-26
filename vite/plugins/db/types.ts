@@ -3,6 +3,16 @@ interface BaseProperty {
 	description?: string;
 }
 
+interface ResponseItem {
+	description: string;
+	content: Record<ContentType, { schema: SchemaProperty }>;
+}
+
+interface Response {
+	'200': ResponseItem;
+	'401': ResponseItem;
+}
+
 // 从API文档中解析出的类型属性
 interface SchemaProperty extends BaseProperty {
 	format?: string;
@@ -44,6 +54,29 @@ interface ExistingProperty {
 	updated_at: string;
 }
 
+interface ExistingApi {
+	id: number;
+	modules_id: number;
+	method: string;
+	path: string;
+	tags: string;
+	summary: string;
+	description: string;
+	operationId: string;
+	parameters: string;
+	requestBody: string;
+	responses: string;
+	created_at: string;
+	updated_at: string;
+}
+
+interface ExistingModule {
+	id: number;
+	name: string;
+	created_at: string;
+	updated_at: string;
+}
+
 // 联系信息
 interface Contact {
 	name: string;
@@ -81,24 +114,38 @@ interface Parameter {
 	schema: Schema;
 }
 
+type ContentType =
+	| 'application/json'
+	| 'application/x-www-form-urlencoded'
+	| 'multipart/form-data'
+	| 'text/plain'
+	| 'text/html'
+	| 'text/xml'
+	| 'application/xml'
+	| 'application/octet-stream'
+	| '*/*';
+
+interface RequestBody {
+	required?: boolean;
+	description?: string;
+	content: Record<ContentType, SchemaProperty>;
+}
+
 // 路径
-interface Path {
+interface PathItem {
 	tags: string[];
 	summary: string;
 	description: string;
 	operationId: string;
 	parameters: Parameter[];
+	requestBody: RequestBody;
 	responses: Record<'200' | '401', Response>;
 }
 
 // 响应
 interface Response {
 	description: string;
-	content: {
-		'*/*': {
-			schema: Schema;
-		};
-	};
+	content: Record<ContentType, SchemaProperty>;
 }
 
 // 组件
@@ -128,7 +175,7 @@ interface ApiDoc {
 	servers: Server[];
 	security: Security[];
 	tags: Tag[];
-	paths: Record<string, Record<string, Path>>;
+	paths: Record<string, Record<string, PathItem>>;
 	components: Components;
 }
 
@@ -154,5 +201,17 @@ const typeMapping = {
 	'integer:int64': 'number',
 };
 
-export type { ExistingType, Schema, SchemaProperty, ApiDoc, ExistingProperty };
+export type {
+	Response,
+	ExistingType,
+	ExistingApi,
+	Schema,
+	SchemaProperty,
+	ApiDoc,
+	ExistingProperty,
+	PathItem,
+	ExistingModule,
+	Parameter,
+	RequestBody,
+};
 export { typeMapping };
