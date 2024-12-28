@@ -1,12 +1,19 @@
 <template>
-  <el-watermark
-    id="watermark"
-    :font="font"
-    :content="watermark ? ['Origin Admin', 'Happy Working'] : ''"
-  ></el-watermark>
+  <div class="layout">
+    <AppMain />
+  </div>
 </template>
 
 <script setup lang="ts">
+import defaultSettings from '@/settings';
+import { useSettingStore } from '@/stores/modules/setting';
+import AppMain from './components/AppMain.vue';
+
+const settingStore = useSettingStore();
+settingStore.setNavbar({
+	height: defaultSettings.navbar.height,
+	showNav: defaultSettings.navbar.showNav,
+});
 defineOptions({
 	name: 'LayoutIndex',
 });
@@ -19,7 +26,5 @@ const font = {
 </script>
 
 <style scoped lang="scss">
-.layout {
-  min-width: 600px;
-}
+
 </style>

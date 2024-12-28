@@ -79,7 +79,9 @@ export class ApiGenerator {
 		return 'any';
 	}
 	// 生成参数
-	private async generateParamsContent(api: ExistingApi) {
+	private async generateParamsContent(
+		api: ExistingApi,
+	): Promise<{ content: string; types: string[]; isShowParamsKey?: boolean }> {
 		try {
 			const paramsType = await this.generateParamsType(api);
 			const requestBody = await this.generateRequestBody(api);
@@ -89,7 +91,12 @@ export class ApiGenerator {
 				for (let i = 0; i < paramsType.length; i++) {
 					const param = paramsType[i];
 					const type = await this.generateType(param.schema);
-					content += ` ${param.name}: ${type}`;
+					if (param.required) {
+						content += ` ${param.name}: ${type}`;
+					} else {
+						content += ` ${param.name}?: ${type}`;
+					}
+
 					if (i < paramsType.length - 1) {
 						content += ',';
 					}
@@ -101,6 +108,61 @@ export class ApiGenerator {
 				return { content, types: Array.from(types).filter(Boolean) };
 			}
 			if (requestBody) {
+				const schema = requestBody.content[Object.keys(requestBody.content)[0]].schema;
+				// required 为undefined 代表所有的参数都是需要的
+				if (!schema.required) {
+					if (!schema.properties) {
+						const types = new Set<string>();
+						const type = await this.generateType(schema);
+						const required = requestBody.required;
+						let content = '';
+						if (type) {
+							types.add(this.filterType(type));
+						}
+						if (required) {
+							content = ` params: ${type}`;
+						} else {
+							content = ` params?: ${type}`;
+						}
+						return {
+							content,
+							types: Array.from(types).filter(Boolean),
+							isShowParamsKey: true,
+						};
+					}
+				} else {
+					if (schema.properties) {
+						let content = ' params: {';
+						const types = new Set<string>();
+						for (let i = 0; i < Object.keys(schema.properties).length; i++) {
+							const property = Object.keys(schema.properties)[i];
+							const propertySchema = {
+								name: property,
+								...schema.properties[property],
+							};
+							const type = await this.generateType(propertySchema);
+							if (!schema.required) {
+								content += ` ${property}: ${type}`;
+							}
+							if (schema.required) {
+								if (schema.required.includes(property)) {
+									content += ` ${property}: ${type}`;
+								} else {
+									content += ` ${property}?: ${type}`;
+								}
+							}
+							if (i < Object.keys(schema.properties).length - 1) {
+								content += ',';
+							}
+							if (type) {
+								types.add(this.filterType(type));
+							}
+						}
+						content += ' } ';
+						return { content, types: Array.from(types).filter(Boolean) };
+					}
+				}
+
 				return { content: '', types: [] };
 			}
 			return { content: '', types: [] };
@@ -111,7 +173,7 @@ export class ApiGenerator {
 	}
 
 	// 生成参数类型
-	private async generateParamsType(api: ExistingApi) {
+	private async generateParamsType(api: ExistingApi): Promise<Parameter[] | null> {
 		try {
 			// 添加空值检查
 			if (!api.parameters || api.parameters === '') {
@@ -138,7 +200,7 @@ export class ApiGenerator {
 	}
 
 	// 生成请求体类型
-	private async generateRequestBody(api: ExistingApi) {
+	private async generateRequestBody(api: ExistingApi): Promise<RequestBody | null> {
 		try {
 			// 添加空值检查
 			if (!api.requestBody || api.requestBody === '') {
@@ -266,11 +328,14 @@ export class ApiGenerator {
 	}
 
 	// 生成参数
-	private showParamsKey(paramsContent: string, path: string): string {
+	private showParamsKey(paramsContent: string, path: string, isShowParamsKey?: boolean): string {
 		const params = JSON.parse(this.paramsToJson(paramsContent));
 		if (paramsContent !== '') {
 			const pathParams = this.extractPathParams(path);
 			const queryParams = this.filterNonPathParams(params, pathParams);
+			if (isShowParamsKey) {
+				return ', params';
+			}
 			if (!queryParams.length) {
 				return '';
 			}
@@ -283,7 +348,6 @@ export class ApiGenerator {
 				content += ' }';
 				return content;
 			}
-
 			return ', params';
 		}
 		return '';
@@ -295,13 +359,17 @@ export class ApiGenerator {
 		let output = '';
 		output += `/**\n * @description ${this.replaceParaTags(api.description)}\n * @createTime ${api.created_at}\n * @updateTime ${api.updated_at}\n **/\n`;
 		const { content, type } = await this.generateHttpMethod(api);
-		const { content: paramsContent, types } = await this.generateParamsContent(api);
+		const {
+			content: paramsContent,
+			types,
+			isShowParamsKey,
+		} = await this.generateParamsContent(api);
 
 		// 处理路径
 		const processedPath = this.processPath(api.path, paramsContent);
 
 		output += `export const ${api.operationId}Api = (${paramsContent}) => {\n`;
-		output += `  return ${content}(${processedPath}${this.showParamsKey(paramsContent, processedPath)})\n`;
+		output += `  return ${content}(${processedPath}${this.showParamsKey(paramsContent, processedPath, isShowParamsKey)})\n`;
 		output += '}\n\n';
 
 		return { output, type, types };
@@ -334,7 +402,9 @@ export class ApiGenerator {
 		for (const param of params) {
 			const [key, type] = param.split(':').map((s) => s.trim());
 			if (key && type) {
-				jsonObj[key] = type;
+				// 移除参数名中的可选符号 ?
+				const cleanKey = key.replace('?', '');
+				jsonObj[cleanKey] = type;
 			}
 		}
 

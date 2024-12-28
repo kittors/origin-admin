@@ -37,6 +37,7 @@ declare interface ViteEnv {
 	VITE_PWA: boolean;
 	VITE_DEVTOOLS: boolean;
 	VITE_API_GENERATE: boolean;
+	VITE_APP_CLIENT_ID: string;
 	VITE_PUBLIC_PATH: string;
 	VITE_API_URL: string;
 	VITE_PROXY: [string, string][];

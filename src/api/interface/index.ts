@@ -33,9 +33,14 @@ export namespace Upload {
 // 登录模块
 export namespace Login {
 	export interface ReqLoginForm {
-		username: string;
-		password: string;
-		code: string;
+		uuid: string; // 唯一标识
+		rememberMe: boolean; // 记住密码
+		grantType: string; // 授权类型
+		tenantId: string; // 租户id
+		username: string; // 用户名
+		password: string; // 密码
+		code: string; // 验证码
+		clientId: string; // 客户端id
 	}
 	export interface ResLogin {
 		access_token: string;

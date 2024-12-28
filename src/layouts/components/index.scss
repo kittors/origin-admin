@@ -1,0 +1,10 @@
+.app-main {
+  min-height: calc(100vh - var(--navbar-height));
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-main {
+  padding-top: var(--navbar-height);
+}

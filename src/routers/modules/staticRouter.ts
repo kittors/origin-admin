@@ -23,7 +23,16 @@ export const staticRouter: RouteRecordRaw[] = [
 		component: () => import('@/layouts/index.vue'),
 		// component: () => import("@/layouts/indexAsync.vue"),
 		redirect: HOME_URL,
-		children: [],
+		children: [
+			{
+				path: HOME_URL.replace('/layout', ''), // 如果 HOME_URL 包含 /layout 前缀，需要去掉
+				name: 'home',
+				component: () => import('@/views/home/index.vue'), // 确保这个路径正确
+				meta: {
+					title: '首页',
+				},
+			},
+		],
 	},
 ];
 

@@ -11,6 +11,7 @@ export function wrapperEnv(envConf: Recordable): ViteEnv {
 		VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: false,
 		VITE_DROP_CONSOLE: false,
 		VITE_PWA: false,
+		VITE_APP_CLIENT_ID: '',
 		VITE_DEVTOOLS: false,
 		VITE_PUBLIC_PATH: '',
 		VITE_API_URL: '',
@@ -19,7 +20,7 @@ export function wrapperEnv(envConf: Recordable): ViteEnv {
 		VITE_CODEINSPECTOR: false,
 		VITE_API_GENERATE: false,
 		VITE_APP_BASE_API: '/dev-api',
-		VITE_APP_SERVER_URL: 'http://localhost:8080'
+		VITE_APP_SERVER_URL: 'http://localhost:8080',
 	};
 	for (const envName of Object.keys(envConf)) {
 		const rawValue = envConf[envName] as string;
