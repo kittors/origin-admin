@@ -1,62 +1,65 @@
-export type LayoutType = "vertical" | "classic" | "transverse" | "columns";
+export type LayoutType = 'vertical' | 'classic' | 'transverse' | 'columns';
 
-export type AssemblySizeType = "large" | "default" | "small";
+export type AssemblySizeType = 'large' | 'default' | 'small';
 
-export type LanguageType = "zh" | "en";
+export type LanguageType = 'zh' | 'en';
 
 /* GlobalState */
 export interface GlobalState {
-  layout: LayoutType;
-  assemblySize: AssemblySizeType;
-  language: LanguageType;
-  maximize: boolean;
-  primary: string;
-  isDark: boolean;
-  isGrey: boolean;
-  isWeak: boolean;
-  asideInverted: boolean;
-  headerInverted: boolean;
-  isCollapse: boolean;
-  accordion: boolean;
-  watermark: boolean;
-  breadcrumb: boolean;
-  breadcrumbIcon: boolean;
-  tabs: boolean;
-  tabsIcon: boolean;
-  footer: boolean;
+	device: string;
+	layout: LayoutType;
+	assemblySize: AssemblySizeType;
+	language: LanguageType;
+	maximize: boolean;
+	primary: string;
+	isDark: boolean;
+	isGrey: boolean;
+	isWeak: boolean;
+	asideInverted: boolean;
+	headerInverted: boolean;
+	isCollapse: boolean;
+	accordion: boolean;
+	watermark: boolean;
+	breadcrumb: boolean;
+	breadcrumbIcon: boolean;
+	tabs: boolean;
+	tabsIcon: boolean;
+	footer: boolean;
+	// 是否折叠侧边栏
+	isExpand: boolean;
 }
 
 /* UserState */
 export interface UserState {
-  token: string;
-  userInfo: { name: string };
+	token: string;
+	userInfo: { name: string };
 }
 
 /* tabsMenuProps */
 export interface TabsMenuProps {
-  icon: string;
-  title: string;
-  path: string;
-  name: string;
-  close: boolean;
-  isKeepAlive: boolean;
+	icon: string;
+	title: string;
+	path: string;
+	name: string;
+	close: boolean;
+	isKeepAlive: boolean;
 }
 
 /* TabsState */
 export interface TabsState {
-  tabsMenuList: TabsMenuProps[];
+	tabsMenuList: TabsMenuProps[];
 }
 
 /* AuthState */
 export interface AuthState {
-  routeName: string;
-  authButtonList: {
-    [key: string]: string[];
-  };
-  authMenuList: Menu.MenuOptions[];
+	routeName: string;
+	authButtonList: {
+		[key: string]: string[];
+	};
+	authMenuList: Menu.MenuOptions[];
 }
 
 /* KeepAliveState */
 export interface KeepAliveState {
-  keepAliveName: string[];
+	keepAliveName: string[];
 }

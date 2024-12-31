@@ -11,10 +11,10 @@
 
 <script setup lang="ts" name="403">
 defineOptions({
-  name: 'Error403Page',
-})
+	name: 'Error403Page',
+});
 
-const router = useRouter()
+const router = useRouter();
 </script>
 
 <style scoped lang="scss">

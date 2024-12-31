@@ -11,7 +11,7 @@ import pinia from '@/stores';
 import ElementPlus from 'element-plus';
 
 // 日志插件
-import loggerPlugin from './plugins/logger';
+import installPlugin from './plugins';
 
 import { updateLoggerEnv } from '@/utils/logger';
 
@@ -22,7 +22,7 @@ updateLoggerEnv(import.meta.env.MODE);
 const app = createApp(App);
 
 app.use(pinia);
-app.use(loggerPlugin);
+app.use(installPlugin);
 app.use(router);
 app.use(ElementPlus);
 app.mount('#app');

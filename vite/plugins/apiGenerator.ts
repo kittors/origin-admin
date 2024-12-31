@@ -34,13 +34,13 @@ export default function apiGeneratorPlugin(viteEnv: ViteEnv) {
 				await generator.generateTypeFile();
 				await apiGenerator.generateApiFile();
 			} catch (error) {
-				logger.error('API 生成失败:', error);
-				if (error instanceof Error) {
-					logger.error('Error details:', {
-						message: error.message,
-						stack: error.stack,
-					});
-				}
+				logger.error('API 生成失败:', '连接openapi文档链接失败');
+				// if (error instanceof Error) {
+				// 	logger.error('Error details:', {
+				// 		message: error.message,
+				// 		stack: error.stack,
+				// 	});
+				// }
 			}
 		},
 	};

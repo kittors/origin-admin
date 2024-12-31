@@ -31,6 +31,7 @@ export class TypeGenerator {
 			let output = '// 自动生成的类型定义文件，请勿手动修改\n\n';
 
 			for (const type of types) {
+				// logger.debug(type);
 				output += `/**\n * @description ${this.replaceParaTags(type.description)}\n * @createTime ${type.created_at}\n * @updateTime ${type.updated_at}\n**/\n`;
 
 				output += `export interface ${type.name} {\n`;
@@ -39,6 +40,9 @@ export class TypeGenerator {
 				  SELECT * FROM type_properties WHERE type_id = ?
 				`)
 					.all(type.id) as ExistingProperty[];
+				// if (type.name === 'RouterVo') {
+				// 	logger.debug('properties', properties);
+				// }
 				for (const prop of properties) {
 					if (prop.description) {
 						output += `  /** ${this.replaceParaTags(prop.description)} */\n`;

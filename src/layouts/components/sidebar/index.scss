@@ -1,0 +1,32 @@
+.sidebar-container {
+  height: 100vh;
+  border-right: 1px solid var(--el-border-color-light);
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+  background-color: var(--el-menu-bg-color);
+  overflow: hidden;
+  .sidebar-logo-container {
+    height: var(--navbar-height);
+    .sidebar-logo-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--el-aside-logo-text-color);
+      .logo-text {
+        text-align: center;
+        white-space: nowrap;
+        font-size: 16px;
+      }
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}
+.common-layout-mobile .sidebar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}

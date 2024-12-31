@@ -10,6 +10,7 @@ const boolToInt = (name: string, required?: string[]): number => {
 export class TypeSchemaProcessor {
 	private db: Database;
 	private apiDoc: ApiDoc | null = null;
+	private updatedNum = 0;
 	private noUpdatedNum = 0;
 	private insertNum = 0;
 	private propertyInsertNum = 0;
@@ -55,7 +56,7 @@ export class TypeSchemaProcessor {
 					// 获取现有的类型的所有数据
 					const { description, type, properties, additionalProperties, required } =
 						existingType;
-					const hasChanges =
+					const noHasChanges =
 						standardData.name === existingType.name &&
 						description === standardData.description &&
 						type === standardData.type &&
@@ -63,11 +64,11 @@ export class TypeSchemaProcessor {
 						additionalProperties === standardData.additionalProperties &&
 						required === standardData.required;
 
-					if (hasChanges) {
+					if (noHasChanges) {
 						this.noUpdatedNum++;
 						return;
 					}
-
+					this.updatedNum++;
 					// 更新类型
 					this.db
 						.prepare(`UPDATE types SET
@@ -86,8 +87,8 @@ export class TypeSchemaProcessor {
 							standardData.required,
 							existingType.id,
 						);
-					logger.info(`类型 ${name} 已更新`, existingType);
-					this.insertProperty(existingType.id, schema.properties, schema.required);
+					// logger.info(`类型 ${name} 已更新`, existingType);
+					this.insertProperty(existingType.id, schema.properties, schema.required, name);
 				} else {
 					// 添加 INSERT 语句
 					const result = this.db
@@ -127,11 +128,11 @@ export class TypeSchemaProcessor {
 		id: number,
 		properties?: Record<string, SchemaProperty>,
 		required?: string[],
+		typeName?: string,
 	) {
-		// logger.info('properties', properties);
 		// 如果没有属性就不需要在执行插入了
 		if (!properties) return;
-
+		// 添加调试日志，查看现有的属性
 		for (const [name, property] of Object.entries(properties)) {
 			if (property.$ref) {
 				property.type = property.$ref.split('/').pop() ?? '';
@@ -139,7 +140,6 @@ export class TypeSchemaProcessor {
 			const existingProperty = this.db
 				.prepare('SELECT * FROM type_properties WHERE type_id = ? AND name = ?')
 				.get(id, name) as ExistingProperty;
-
 			if (existingProperty) {
 				const hasChanges =
 					existingProperty.type === (property.type ?? '') &&
@@ -240,6 +240,7 @@ export class TypeSchemaProcessor {
 		try {
 			this.apiDoc = apiDoc;
 			this.noUpdatedNum = 0;
+			this.updatedNum = 0;
 			this.propertyInsertNum = 0;
 			this.insertNum = 0;
 			this.noUpdatePropertyNum = 0;
@@ -254,6 +255,7 @@ export class TypeSchemaProcessor {
 					await this.insertType(name, schema);
 				}
 				logger.info(`无任何更新类型数量: ${this.noUpdatedNum}`);
+				logger.info(`更新类型数量: ${this.updatedNum}`);
 				logger.info(`新增数量: ${this.insertNum}`);
 				logger.info(`新增属性数量: ${this.propertyInsertNum}`);
 				logger.info(`无更新属性数量: ${this.noUpdatePropertyNum}`);

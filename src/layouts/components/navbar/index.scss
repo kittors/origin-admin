@@ -1,0 +1,23 @@
+.navbar-container {
+  height: var(--navbar-height);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 20px;
+    .navbar-expand {
+      cursor: pointer;
+      font-size: var(--navbar-expand-size);
+    }
+  }
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

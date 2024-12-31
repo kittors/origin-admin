@@ -14,6 +14,12 @@
   }
 }
 
+/* el-header */
+.el-header {
+  border-bottom: 1px solid var(--el-border-color-light);
+  background-color: var(--el-bg-color);
+}
+
 /* mask image */
 .mask-image {
   padding-right: 50px;

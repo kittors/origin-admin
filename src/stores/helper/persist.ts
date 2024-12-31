@@ -1,4 +1,4 @@
-import type { PersistenceOptions } from "pinia-plugin-persistedstate";
+import type { PersistenceOptions } from 'pinia-plugin-persistedstate';
 
 /**
  * @description pinia 持久化参数配置
@@ -7,12 +7,12 @@ import type { PersistenceOptions } from "pinia-plugin-persistedstate";
  * @return {PersistenceOptions} persist
  */
 const piniaPersistConfig = (key: string, pick?: string[]): PersistenceOptions => {
-  const persist: PersistenceOptions = {
-    key,
-    storage: localStorage,
-    pick
-  };
-  return persist;
+	const persist: PersistenceOptions = {
+		key,
+		storage: localStorage,
+		pick,
+	};
+	return persist;
 };
 
 export default piniaPersistConfig;

@@ -1,0 +1,19 @@
+.common-layout {
+  position: relative;
+  .aside-transition {
+    transition: width 0.2s ease-in-out;
+  }
+  .mask-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+  }
+}
+
+// /* 如果需要内容也平滑过渡 */
+// .el-aside :deep(.el-menu) {
+//   transition: width 0.3s ease-in-out;
+// }

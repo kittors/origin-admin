@@ -10,7 +10,7 @@ export default (path: typeof import('path')) => {
 			// 自动注册图标组件
 			IconsResolver({
 				enabledCollections: ['ep'],
-			}),
+			  }),
 		],
 		dts: path.resolve(path.resolve(__dirname, '../../src'), 'typings', 'components.d.ts'),
 	});

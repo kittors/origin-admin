@@ -46,6 +46,33 @@ declare interface ViteEnv {
 	VITE_APP_SERVER_URL: string;
 }
 
+declare interface Animate {
+	// 动画列表
+	animateList: string[];
+	// 默认动画
+	defaultAnimate: string;
+	// 搜索动画
+	searchAnimate: {
+		enter: string;
+		leave: string;
+	};
+	// 菜单搜索动画
+	menuSearchAnimate: {
+		enter: string;
+		leave: string;
+	};
+	// logo动画
+	logoAnimate: {
+		enter: string;
+		leave: string;
+	};
+	// 菜单折叠展开动画
+	menuCollapseAnimate: {
+		enter: string;
+		leave: string;
+	};
+}
+
 interface ImportMetaEnv extends ViteEnv {
 	__: unknown;
 }

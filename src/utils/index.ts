@@ -58,5 +58,3 @@ export function getUrlWithParams() {
 	};
 	return url[mode];
 }
-
-

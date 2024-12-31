@@ -11,10 +11,10 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: 'Error500Page',
-})
+	name: 'Error500Page',
+});
 
-const router = useRouter()
+const router = useRouter();
 </script>
 
 <style scoped lang="scss">

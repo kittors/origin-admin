@@ -1,17 +1,22 @@
+@use "animate.css";
 // reset style sheet
-@use './reset.scss';
+@use "./reset.scss";
 
 // CSS common style sheet
-@use './common.scss';
+@use "./common.scss";
 
 // element dark css
-@use 'element-plus/theme-chalk/dark/css-vars.css';
+@use "element-plus/theme-chalk/dark/css-vars.css";
 
 // element css
-@use 'element-plus/dist/index.css';
+@use "element-plus/dist/index.css";
 
 // custom element dar
-@use './element-dark.scss';
+@use "./element-dark.scss";
 
 // custom element css
-@use './element.scss';
+@use "./element.scss";
+
+a {
+  text-decoration: none;
+}
